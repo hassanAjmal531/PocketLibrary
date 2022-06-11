@@ -2,6 +2,7 @@
 import * as firebase from "firebase/app";
 
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyAMZzvreMugdBF8nmNqRwWxf6TVJFzM1jw",
   authDomain: "pocket-library-31a42.firebaseapp.com",
@@ -16,7 +17,7 @@ let app;
 if(firebase.getApps.length ===0){
     app = firebase.initializeApp(firebaseConfig);
 }else{
-    app = firebase.app();
+    app = firebase.app("Pocket Library");
 }
 
 const auth = firebase.auth();

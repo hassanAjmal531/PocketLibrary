@@ -4,6 +4,7 @@ import {View ,Text, ScrollView, StyleSheet,TextInput,  TouchableOpacity, FlatLis
 
 import Book from "./Book";
 import { SafeAreaView } from "react-native-safe-area-context";
+import SwipingCarasoul from "./SwipingCarasoul";
 
 const Home = ()=>{
     const data= [
@@ -25,26 +26,20 @@ const Home = ()=>{
     ]
     return (<View style={style.main}>
         <View style= {style.searchBar}>
-            {/* <TextInput style= {style.search}
-            label="search"
-            placeholder="Search ....." 
-            mode="outlined" 
-            outlineColor="#ffffff"
-            activeOutlineColor="#ffffff"
-            theme={{colors:{text: "#ffffff"}}}></TextInput> */}
+            
             <TextInput style= {style.search} placeholder= "Search......." placeholderTextColor="#ffffff"></TextInput>
             <Button style={style.icon} icon="magnify"></Button>
 
             
         </View>
 
-        <SafeAreaView>
-            <ScrollView>
-                <Text> Trending Books</Text>
-                <View style={style.trending}>
-                    <FlatList></FlatList>
-                </View>
-                <Text> Trending Books</Text>
+        <SafeAreaView >
+            <ScrollView style={style.seealsoContainer}>
+                <Text>Trending</Text>
+                <SwipingCarasoul data= {data}/>
+            
+                
+                {/* <Text style={style.trendingTitle}> See Also</Text>
                 <View style={style.trending}>
                     <FlatList 
                     data={data}
@@ -52,7 +47,7 @@ const Home = ()=>{
                         return <Book title= {item.title} disc = {item.disc}/>
                     }}
                     ></FlatList>
-                </View>
+                </View> */}
             </ScrollView>
         </SafeAreaView>
     </View>
@@ -94,8 +89,21 @@ const style = StyleSheet.create({
     ,
     trending: {
         height: 600,
-        backgroundColor: "orange"
+        backgroundColor: "black"
 
+    },
+    trendingTitle:{
+        fontSize: 30,
+        fontWeight:"bold",
+        fontStyle: "italic",
+        color: "white",
+        marginVertical: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: "white",
+        marginHorizontal: 5
+    },
+    seealsoContainer:{
+        marginBottom: 30
     }
 });
 

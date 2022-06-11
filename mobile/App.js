@@ -9,6 +9,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+import 'react-native-gesture-handler'
+import BookDetails from './Components/BookDetails';
 
 import Login from './Components/Login';
 
@@ -47,7 +49,7 @@ const App= () => {
    <NavigationContainer>
      <stack.Navigator>
        {/* <stack.Screen name='login' component={Login}></stack.Screen> */}
-       <stack.Screen name='SigUP' component={SignUp}></stack.Screen>
+       <stack.Screen options={{headerShown: false}} name='SigUP' component={BookDetails}></stack.Screen>
        {/* <stack.Screen name='Forgot Password' component={Home}></stack.Screen> */}
      </stack.Navigator>
    </NavigationContainer>

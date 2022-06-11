@@ -3,7 +3,8 @@ import {Alert,KeyboardAvoidingView,View, Text,Image, TouchableOpacity, ScrollVie
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
-import { auth } from "../FireBase/firebase";
+
+
 
 
 
@@ -12,22 +13,22 @@ const SignUP = ()=> {
   const [pass, setPass] = useState ("");
   const [cnfrm, setCnfrm] = useState("");
 
-  const registerUser = () => {
-    if(cnfrm !== pass){
-      Alert.alert("msg", "password and confirm password must be same")
+  // const registerUser = () => {
+  //   if(cnfrm !== pass){
+  //     Alert.alert("msg", "password and confirm password must be same")
 
 
-    }
-    else{
-      auth.createUserWithEmailAndPassword().then(usercrendentials => {
-        const user = usercrendentials.user;
-        console.log(user)
-      }).catch(err=>{
-        console.log(err)
-      })
-    }
+  //   }
+  //   else{
+  //     auth.createUserWithEmailAndPassword().then(usercrendentials => {
+  //       const user = usercrendentials.user;
+  //       console.log(user)
+  //     }).catch(err=>{
+  //       console.log(err)
+  //     })
+  //   }
     
-  }
+  // }
 
 
     return(
