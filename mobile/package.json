@@ -29,6 +29,7 @@
     "react-native-star-rating-widget": "^1.2.0",
     "react-native-svg": "^12.3.0",
     "react-native-svg-transformer": "^1.0.0",
+    "react-native-vector-icons": "^9.1.0",
     "remove-module": "^0.1.0"
   },
   "devDependencies": {
