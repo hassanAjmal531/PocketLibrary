@@ -19,6 +19,8 @@ const SwipingCarasoul = (props)=>{
         autoPlay={true}
         scrollEnabled= {true}
         useScrollView= {true}
+        onChange = {()=> console.log("hellooooo")}
+        style = {props.styles}
 />
     );
 

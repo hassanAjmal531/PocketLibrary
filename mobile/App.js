@@ -49,7 +49,7 @@ const App= () => {
    <NavigationContainer>
      <stack.Navigator>
        {/* <stack.Screen name='login' component={Login}></stack.Screen> */}
-       <stack.Screen options={{headerShown: false}} name='SigUP' component={BookDetails}></stack.Screen>
+       <stack.Screen options={{headerShown: false}} name='SigUP' component={Home}></stack.Screen>
        {/* <stack.Screen name='Forgot Password' component={Home}></stack.Screen> */}
      </stack.Navigator>
    </NavigationContainer>
