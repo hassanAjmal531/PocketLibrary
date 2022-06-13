@@ -6,14 +6,15 @@ import StarRating from "react-native-star-rating-widget";
 
  const CBook = (props) => {
     return (
-        <View>
-            <Image source={require("../Images/book.png")}></Image>
-            <View>
-                <Title> {props.title}</Title>
-                <Paragraph> {props.disc}</Paragraph>
-                <StarRatings
+        <View style = {style.main}>
+            <Image style = {style.Image} source={require("../Images/book.png")}></Image>
+            <View style= {style.detContainer}>
+                <Title style = {style.title}> {props.title}</Title>
+                <Paragraph style = {style.Paragraph}> {props.disc}</Paragraph>
+                <StarRating
+                style = {style.rating}
                 rating= {4}
-                ></StarRatings>
+                ></StarRating>
             </View>
         </View>
     );
@@ -22,27 +23,31 @@ import StarRating from "react-native-star-rating-widget";
  const style = StyleSheet.create({
     main: {
         display:"flex",
-        flex: 1,
+        
         flexDirection: "column",
-        backgroundColor : "white"
+        backgroundColor : "black",
+        alignItems: "center"
+
+
 
     },
     Image: {
-        flex: 1,
+        
+      
     },
     detContainer: {
-        flex: 1,
+        flex: 2,
         paddingHorizontal: 20
 
     },
     title: {
         color: "black",
-        font: 20,
+        fontSize: 20,
         fontWeight : "bold",
     },
     Paragraph: {
         color: "grey",
-        font: 15,
+        fontSize: 15,
         fontWeight : "normal",
     },
     rating: {

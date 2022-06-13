@@ -5,7 +5,8 @@ import { Title , Paragraph} from "react-native-paper";
 import StarRating from "react-native-star-rating-widget";
 
 const {widht,height} = Dimensions.get("window")
-const BookDetails = () => {
+const BookDetails = ({navigation, route}) => {
+    
     return (<View style={style.main}>
         <ScrollView>
         <View style={style.bookImageView}>

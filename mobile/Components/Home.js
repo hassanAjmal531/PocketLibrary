@@ -1,13 +1,16 @@
 import React from "react";
-import { Button, Card , Title } from "react-native-paper";
+import { Button, Card , Paragraph, Title } from "react-native-paper";
 import {Image,Dimensions,View ,Text, ScrollView, StyleSheet,TextInput,  TouchableOpacity, FlatList} from "react-native"
+import { NavigationContainer } from '@react-navigation/native';
 
 import Book from "./Book";
 import { SafeAreaView } from "react-native-safe-area-context";
-import SwipingCarasoul from "./SwipingCarasoul";
-import { black } from "react-native-paper/lib/typescript/styles/colors";
+import Fav from "./favourite"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const {width} = Dimensions.get("window");
-const Home = ()=>{
+
+const tab = createBottomTabNavigator();
+const component = ({navigation})=>{
     const data= [
         {
             id: 1,
@@ -35,7 +38,7 @@ const Home = ()=>{
             disc: "abcsbheshbh"
         }
     ]
-    return (<View style={style.main}>
+    return (<SafeAreaView style={style.main}>
         <View style= {style.container}>
             <Title style= {style. Maintitle}> Pocket Library</Title>
             <View style= {style.searchBar}>
@@ -44,20 +47,18 @@ const Home = ()=>{
                 <Button style={style.icon} icon="magnify"></Button>
 
             </View>
-            <View style= {style.container2}>
-                <ScrollView>
-                    <View style= {style.cContainer}>
-                        <Title style= {style.title}>Trending</Title>
-                        <SwipingCarasoul data = {data} styles= {style.book}/>
-                        <Title style= {style.title}>For you</Title>
-                    </View>
-                    <View>
-                    {data.map(item =>{ return <Book styles= {style.book} title= {item.title} disc = {item.disc}></Book>} )}
-
-                    </View>
-                </ScrollView>
-            </View>
+            <Title style= {style. Maintitle}> For You</Title>
+          
         </View>
+        <View>
+        <ScrollView>
+            <View style = {{flex: 1, backgroundColor : 'orange  '}}>
+                {data.map(item=> <Book nav = {navigation} title= {item.title} disc = {item.disc}></Book>)}
+                
+            </View>
+        </ScrollView>
+        </View>
+        
 
         {/* <SafeAreaView >
             <ScrollView style={style.seealsoContainer}>
@@ -72,12 +73,22 @@ const Home = ()=>{
                 </View>
             </ScrollView>
         </SafeAreaView> */}
-    </View>
+    </SafeAreaView>
     )
 }
 
-const style = StyleSheet.create({
+const Home = ()=> {
+    return (
+        
+      <tab.Navigator>
+        <tab.Screen name="Home" component={component} />
+        <tab.Screen name="Favourites" component={Fav} />
+      </tab.Navigator>
+    
+    );
+}
 
+const style = StyleSheet.create({
     main: {
         flex: 1,
         backgroundColor: "black",
@@ -85,9 +96,12 @@ const style = StyleSheet.create({
         width: width
     },
     container: {
-        flex: 1,
+        
         backgroundColor: "#ebb82d",
-        width: width
+        width: width,
+        height: 260,
+        borderBottomStartRadius: 10,
+        borderBottomEndRadius: 10
         
     },
     container2: {
@@ -145,8 +159,26 @@ const style = StyleSheet.create({
     book: {
         backgroundColor: "black"
     }
+    ,
     
+    swipElement: {
+        backgroundColor: "whites",
+        
+        width: width,
+        height: 220,
+        borderRadius: 10,
+        
+
+        
+        
+    }
+    , Image: {
+        width : width,
+        height: 140
+
+    }
     
+
 });
 
 export default module = Home;

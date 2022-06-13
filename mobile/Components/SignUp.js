@@ -8,7 +8,7 @@ import LinearGradient from "react-native-linear-gradient";
 
 
 
-const SignUP = ()=> {
+const SignUP = ({navigation})=> {
   const [name, setName] = useState("");
   const [pass, setPass] = useState ("");
   const [cnfrm, setCnfrm] = useState("");
@@ -77,7 +77,7 @@ const SignUP = ()=> {
           </TextInput>
 
 
-          <TouchableOpacity style = {style.button} onPress= {()=> registerUser()}>
+          <TouchableOpacity style = {style.button} onPress= {()=> navigation.navigate("Home")}>
               <LinearGradient   start={{x: 0, y: 0}} end={{x: 1, y: 0.5}} colors={['#fc0303','#fc5203', '#fcc603', ]}>
                   <Text style={style.buttonText}>Sigup</Text>
               </LinearGradient>

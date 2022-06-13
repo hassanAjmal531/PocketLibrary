@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
 import style from "../styles/login"
-const Login=()=>{
+const Login=({navigation})=>{
     
 
     return(
@@ -20,7 +20,7 @@ const Login=()=>{
           
           <TextInput style={style.text} label='enter password' mode="flat"  underlineColor="#fc5203" activeUnderlineColor="#fc5203"  theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}}></TextInput>
           
-          <TouchableOpacity style = {style.button} onPress= {{}}>
+          <TouchableOpacity style = {style.button} onPress= {()=> navigation.navigate("Home")}>
               <LinearGradient   start={{x: 0, y: 0}} end={{x: 1, y: 0.5}} colors={['#fc0303','#fc5203', '#fcc603', ]}>
                   <Text style={style.buttonText}>Login</Text>
               </LinearGradient>
@@ -29,7 +29,7 @@ const Login=()=>{
           
           <View style={style.signupview}>
           <Text>Dont have an account? no worries you can sign up</Text>
-          <TouchableOpacity onPress={{}} >
+          <TouchableOpacity onPress= {()=> navigation.navigate("signup")} >
               
               <Text style={style.signup}>signup</Text>
              

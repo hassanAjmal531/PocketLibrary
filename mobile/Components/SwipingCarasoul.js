@@ -3,28 +3,25 @@ import { View, Dimensions , Text, StyleSheet} from "react-native";
 import Carousel from "react-native-snap-carousel"
 import Book from "./Book";
 
+import CarasoulBook from "./CarasoulBook";
+import Swiper from "react-native-swiper";
+
 const {width} = Dimensions.get("window")
 
 
 const SwipingCarasoul = (props)=>{
+    const data = props.data;
 
     return(
-        <Carousel
-        layout="default"
-        itemWidth={width-20}
-        itemHeight={400}
-        sliderWidth= {width}
-        data={props.data}
-        renderItem={({ item }) => <Book title= {item.title} disc = {item.disc}/>}
-        autoPlay={true}
-        scrollEnabled= {true}
-        useScrollView= {true}
-        onChange = {()=> console.log("hellooooo")}
-        style = {props.styles}
-/>
+        <Swiper>
+            {data.map(item=>  <CarasoulBook  ></CarasoulBook>)}
+            
+        </Swiper>
+        
     );
 
 }
+
 
 
 
