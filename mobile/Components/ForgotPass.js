@@ -14,12 +14,15 @@ const ForgotPass = ()=> {
        
           
           <View>
+            <Text> Forgot Password</Text>
            
-          <TextInput style={style.text} label="please enter your old password" mode="flat"   underlineColor="#fc5203" activeUnderlineColor="#fc5203" theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}} ></TextInput>
-          <TextInput style={style.text} label='please enter new password' mode="flat"  underlineColor="#fc5203" activeUnderlineColor="#fc5203"  theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}}></TextInput>
-          <TextInput style={style.text} label='confirm password' mode="flat"  underlineColor="#fc5203" activeUnderlineColor="#fc5203"  theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}}></TextInput>
-
-
+          <TextInput 
+          style={style.text} 
+          label="Enter Email" 
+          mode="flat"  
+          underlineColor="#fc5203"
+          activeUnderlineColor="#fc5203" 
+          theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}} ></TextInput>
           <TouchableOpacity style = {style.button} onPress= {()=>{Alert.alert("message", "password updated")}}>
               <LinearGradient   start={{x: 0, y: 0}} end={{x: 1, y: 0.5}} colors={['#fc0303','#fc5203', '#fcc603', ]}>
                   <Text style={style.buttonText}>change Pass</Text>
