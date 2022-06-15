@@ -3,32 +3,22 @@ import {Alert,KeyboardAvoidingView,View, Text,Image, TouchableOpacity, ScrollVie
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
-
-
+import auth from "../FireBase/firbaseConfig" 
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 
 
 const SignUP = ({navigation})=> {
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [pass, setPass] = useState ("");
   const [cnfrm, setCnfrm] = useState("");
 
-  // const registerUser = () => {
-  //   if(cnfrm !== pass){
-  //     Alert.alert("msg", "password and confirm password must be same")
+  const signUp = ()=>{
 
-
-  //   }
-  //   else{
-  //     auth.createUserWithEmailAndPassword().then(usercrendentials => {
-  //       const user = usercrendentials.user;
-  //       console.log(user)
-  //     }).catch(err=>{
-  //       console.log(err)
-  //     })
-  //   }
-    
-  // }
+    createUserWithEmailAndPassword(auth, email, pass).then((result)=> {
+      console.log(result);
+    }).catch(e=> console.log(e))
+  }
 
 
     return(
@@ -42,12 +32,12 @@ const SignUP = ({navigation})=> {
            
           <TextInput 
           style={style.text} 
-          label="please enter your name" 
+          label="please enter email" 
           mode="flat"   
           underlineColor="#fc5203" 
           activeUnderlineColor="#fc5203" 
           theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}} 
-          onChangeText= {text => setName(Text)}
+          onChangeText= {text => setEmail(text)}
           >
 
           </TextInput>
@@ -77,7 +67,9 @@ const SignUP = ({navigation})=> {
           </TextInput>
 
 
-          <TouchableOpacity style = {style.button} onPress= {()=> navigation.navigate("Home")}>
+          <TouchableOpacity style = {style.button} onPress= {()=>{
+            signUp(email, pass);
+          }}>
               <LinearGradient   start={{x: 0, y: 0}} end={{x: 1, y: 0.5}} colors={['#fc0303','#fc5203', '#fcc603', ]}>
                   <Text style={style.buttonText}>Sigup</Text>
               </LinearGradient>

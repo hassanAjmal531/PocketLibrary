@@ -1,10 +1,25 @@
-import React from "react";
+import React ,{useState} from "react";
 import {View, Text,Image, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
 import style from "../styles/login"
+import auth from "../FireBase/firbaseConfig"
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+
+
 const Login=({navigation})=>{
+
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+
+  const signIn = ()=> {
+    signInWithEmailAndPassword(auth, email, pass ).then((result)=>{
+      navigation.navigate("Home");
+    }).catch((e)=> console.log(e));
+    
+  }
     
 
     return(
@@ -16,11 +31,11 @@ const Login=({navigation})=>{
         <View>
           
         
-          <TextInput style={style.text} label="enter username" mode="flat"   underlineColor="#fc5203" activeUnderlineColor="#fc5203" theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}} ></TextInput>
+          <TextInput style={style.text} onChangeText={(text)=> setEmail(text)} label="enter username" mode="flat"   underlineColor="#fc5203" activeUnderlineColor="#fc5203" theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}} ></TextInput>
           
-          <TextInput style={style.text} label='enter password' mode="flat"  underlineColor="#fc5203" activeUnderlineColor="#fc5203"  theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}}></TextInput>
+          <TextInput style={style.text} onChangeText = {(text)=> setPass(text)} label='enter password' mode="flat"  underlineColor="#fc5203" activeUnderlineColor="#fc5203"  theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}}></TextInput>
           
-          <TouchableOpacity style = {style.button} onPress= {()=> navigation.navigate("Home")}>
+          <TouchableOpacity style = {style.button} onPress= {signIn}>
               <LinearGradient   start={{x: 0, y: 0}} end={{x: 1, y: 0.5}} colors={['#fc0303','#fc5203', '#fcc603', ]}>
                   <Text style={style.buttonText}>Login</Text>
               </LinearGradient>
