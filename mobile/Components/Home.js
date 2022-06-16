@@ -15,49 +15,35 @@ const tab = createBottomTabNavigator();
 const component = ({navigation})=>{
 
     const [data, setData] = useState([]);
+    const [query, setquery] = useState("");
     let d = {};
 
-    useEffect(async ()=>{
-    const data=  await axios.get("https://www.googleapis.com/books/v1/volumes?q=flowers&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40")
+    const search =async (query)=> {
+        const data=  await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40&filter=free-ebooks`)
       setData(data.data.items)
-      console.log(data)
+
+
+    }
+
+    useEffect(async ()=>{
+    const data=  await axios.get("https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40&filter=free-ebooks")
+      setData(data.data.items)
+      
      
     }, [])
 
-    const data1= [
-        {
-            id: 1,
-            title: "welcome Home",
-            disc: "abcsbheshbh"
-        },
-        {
-            id: 2,
-            title: "the obsticle is the way",
-            disc: "abcsbheshbh"
-        },
-        {
-            id: 4,
-            title: "how to win friends and influence papers",
-            disc: "abcsbheshbh"
-        },
-        {
-            id: 5,
-            title: "the obsticle is the way",
-            disc: "abcsbheshbh"
-        },
-        {
-            id: 6,
-            title: "how to win friends and influence papers",
-            disc: "abcsbheshbh"
-        }
-    ]
+   
     return (<SafeAreaView style={style.main}>
         <View style= {style.container}>
             <Title style= {style. Maintitle}> Pocket Library</Title>
             <View style= {style.searchBar}>
                         
-                <TextInput style= {style.search} placeholder= "What would you like to read?" placeholderTextColor="#adacaa"></TextInput>
-                <Button style={style.icon} icon="magnify"></Button>
+                <TextInput 
+                style= {style.search} 
+                placeholder= "What would you like to read?" 
+                placeholderTextColor="#adacaa" 
+                onChangeText={(text)=>setquery(text)}></TextInput>
+                <Button style={style.icon} icon="magnify" onPress={()=> search(query)}></Button>
 
             </View>
             <Title style= {style. Maintitle}> For You</Title>
@@ -66,7 +52,10 @@ const component = ({navigation})=>{
         <View>
         <ScrollView>
             <View style = {{flex: 1, backgroundColor : 'orange  '}}>
-                {data.map(item=> <Book nav = {navigation} title= {item.volumeInfo.title} disc = {item.volumeInfo.authors} img= {item.volumeInfo.imageLinks.thumbnail}></Book>)}
+                {data.map((item)=> {
+                    
+                
+               return <Book nav = {navigation} title= {item.volumeInfo.title} disc = {item.volumeInfo.authors} item= {item}   ></Book>})}
                 
             </View>
         </ScrollView>

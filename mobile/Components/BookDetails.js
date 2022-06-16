@@ -1,22 +1,28 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView} from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, Linking} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Title , Paragraph} from "react-native-paper";
+import { Title , Paragraph, Button} from "react-native-paper";
+
 import StarRating from "react-native-star-rating-widget";
 
 const {widht,height} = Dimensions.get("window")
 const BookDetails = ({navigation, route}) => {
-      
+
+      const openBook = async(url)=>{
+        await Linking.openURL(url).then(data=> console.log(data)).catch(e=> console.log(e))
+      }
+      const book = route.params.book;
+      console.log(book.volumeInfo.previewLink);
     return (<View style={style.main}>
         <ScrollView>
         <View style={style.bookImageView}>
         
-        <Image elevation={100} style={style.img} source={require("../Images/book.png")}></Image>
+        <Image elevation={100} style={style.img} source={{uri: book.volumeInfo.imageLinks.thumbnail}}></Image>
         <Title style = {style.title}>
-            Welcome Home: A home in your heart
+            {book.volumeInfo.title}
         </Title>
     
-        <Paragraph style = {style.author}> by Me</Paragraph>
+        <Paragraph style = {style.author}> {book.volumeInfo.authors}</Paragraph>
         <View style= {style.bar}>
             <View style={style.ratingView}>
            
@@ -33,15 +39,16 @@ const BookDetails = ({navigation, route}) => {
             
             
         </View>
-        <TouchableOpacity style= {style.button}>
+        <Button style= {style.button}
+        onPress= {()=> openBook(book.volumeInfo.previewLink)}  >
                 <Text style={style.buttonText}> Read Book</Text>
-        </TouchableOpacity>
+        </Button>
             
         </View>
         <View style = {style.bookDetailView}>
            
            <Title style= {style.detailTitle}> What's its about?</Title>
-            <Paragraph style={style.detail}> "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</Paragraph>
+            <Paragraph style={style.detail}>{book.volumeInfo.description} </Paragraph>
            
            
           
