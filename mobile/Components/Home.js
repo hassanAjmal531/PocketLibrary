@@ -16,17 +16,22 @@ const component = ({navigation})=>{
 
     const [data, setData] = useState([]);
     const [query, setquery] = useState("");
-    let d = {};
+    const [pageButton, setPageButton] = useState(0)
+    const paginationIndex = 0;
+    var intialtquery = `https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40&filter=free-ebooks&startIndex=${paginationIndex}`;
+    var searchQuery = `https://www.googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40&filter=free-ebooks&startIndex=${paginationIndex}`;
+
+    
 
     const search =async (query)=> {
-        const data=  await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40&filter=free-ebooks`)
+        const data=  await axios.get(searchQuery)
       setData(data.data.items)
 
 
     }
 
     useEffect(async ()=>{
-    const data=  await axios.get("https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40&filter=free-ebooks")
+    const data=  await axios.get(intialtquery)
       setData(data.data.items)
       
      
@@ -58,6 +63,7 @@ const component = ({navigation})=>{
                return <Book nav = {navigation} title= {item.volumeInfo.title} disc = {item.volumeInfo.authors} item= {item}   ></Book>})}
                 
             </View>
+
         </ScrollView>
         </View>
         
