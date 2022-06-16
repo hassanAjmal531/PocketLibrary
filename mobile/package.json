@@ -35,7 +35,8 @@
     "react-native-svg-transformer": "^1.0.0",
     "react-native-swiper": "^1.6.0",
     "react-native-vector-icons": "^9.1.0",
-    "remove-module": "^0.1.0"
+    "remove-module": "^0.1.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

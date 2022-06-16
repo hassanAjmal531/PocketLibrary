@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Button, Card , Paragraph, Title } from "react-native-paper";
-import {Image,Dimensions,View ,Text, ScrollView, StyleSheet,TextInput,  TouchableOpacity, FlatList} from "react-native"
+import {Image,Dimensions,View ,Text, ScrollView, StyleSheet,TextInput,  Alert} from "react-native"
 import { NavigationContainer } from '@react-navigation/native';
 import axios from "axios";
 import Book from "./Book";
@@ -17,6 +17,7 @@ const component = ({navigation})=>{
     const [data, setData] = useState([]);
     const [query, setquery] = useState("");
     const [pageButton, setPageButton] = useState(0)
+    
     const paginationIndex = 0;
     var intialtquery = `https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40&filter=free-ebooks&startIndex=${paginationIndex}`;
     var searchQuery = `https://www.googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40&filter=free-ebooks&startIndex=${paginationIndex}`;
@@ -24,6 +25,8 @@ const component = ({navigation})=>{
     
 
     const search =async (query)=> {
+        
+            
         const data=  await axios.get(searchQuery)
       setData(data.data.items)
 
