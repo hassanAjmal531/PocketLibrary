@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
 import style from "../styles/login"
-import auth from "../FireBase/firbaseConfig"
+// import auth from "../backend/FireBase/firbaseConfig"
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 

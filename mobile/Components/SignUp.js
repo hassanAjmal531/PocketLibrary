@@ -3,7 +3,7 @@ import {Alert,KeyboardAvoidingView,View, Text,Image, TouchableOpacity, ScrollVie
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
-import auth from "../FireBase/firbaseConfig" 
+//import auth from "../backend/FireBase/firbaseConfig" 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 
@@ -69,6 +69,7 @@ const SignUP = ({navigation})=> {
 
           <TouchableOpacity style = {style.button} onPress= {()=>{
             signUp(email, pass);
+
           }}>
               <LinearGradient   start={{x: 0, y: 0}} end={{x: 1, y: 0.5}} colors={['#fc0303','#fc5203', '#fcc603', ]}>
                   <Text style={style.buttonText}>Sigup</Text>

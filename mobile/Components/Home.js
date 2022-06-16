@@ -1,17 +1,30 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Button, Card , Paragraph, Title } from "react-native-paper";
 import {Image,Dimensions,View ,Text, ScrollView, StyleSheet,TextInput,  TouchableOpacity, FlatList} from "react-native"
 import { NavigationContainer } from '@react-navigation/native';
-
+import axios from "axios";
 import Book from "./Book";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Fav from "./favourite"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { async } from "@firebase/util";
+import { configureProps } from "react-native-reanimated/lib/reanimated2/core";
 const {width} = Dimensions.get("window");
 
 const tab = createBottomTabNavigator();
 const component = ({navigation})=>{
-    const data= [
+
+    const [data, setData] = useState([]);
+    let d = {};
+
+    useEffect(async ()=>{
+    const data=  await axios.get("https://www.googleapis.com/books/v1/volumes?q=flowers&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40")
+      setData(data.data.items)
+      console.log(data)
+     
+    }, [])
+
+    const data1= [
         {
             id: 1,
             title: "welcome Home",
@@ -53,7 +66,7 @@ const component = ({navigation})=>{
         <View>
         <ScrollView>
             <View style = {{flex: 1, backgroundColor : 'orange  '}}>
-                {data.map(item=> <Book nav = {navigation} title= {item.title} disc = {item.disc}></Book>)}
+                {data.map(item=> <Book nav = {navigation} title= {item.volumeInfo.title} disc = {item.volumeInfo.authors} img= {item.volumeInfo.imageLinks.thumbnail}></Book>)}
                 
             </View>
         </ScrollView>
