@@ -6,4 +6,9 @@ let SignUpSchema = yup.object().shape({
     confirmPassword : yup.string().required("confirm password is required").oneOf([yup.ref('password'), null], 'Confirm Password must match password'),
   });
 
+
+
 export default module = SignUpSchema;
+
+
+

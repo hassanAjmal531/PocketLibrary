@@ -76,7 +76,7 @@ const Login=({navigation})=>{
           mode="contained"
           color="#ebb82d"> Login</Button>
           <View style= {{display: "flex", flexDirection: "row-reverse", marginTop: 10}}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate("forgot")}>
               <Text style={{color: "white", fontSize: 12, marginBottom: 5}}>Forgot Password?  <Text style={{color: "#ebb82d", fontSize: 12}} >click Here</Text></Text>
             </TouchableOpacity>
           </View>

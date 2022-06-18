@@ -36,6 +36,7 @@ import SignUp from './Components/SignUp';
 import ForgotPass from './Components/ForgotPass';
 import Home from './Components/Home';
 import Fav from './Components/favourite';
+import Update from './Components/update';
 
 const stack = createNativeStackNavigator();
 
@@ -50,10 +51,12 @@ const App= () => {
    <NavigationContainer>
      <stack.Navigator
      screenOptions={{headerShown: false}}>
-      <stack.Screen name='forgot' component={ForgotPass}></stack.Screen>
+      <stack.Screen name='login' component={Update}></stack.Screen>
+      
        {/* <stack.Screen name='login' component={Login}></stack.Screen>
        <stack.Screen options={{headerShown: false}} name='signup' component={SignUp}></stack.Screen>
        <stack.Screen options={{headerShown: false}} name='Home' component={Home} ></stack.Screen>
+       <stack.Screen name='forgot' component={ForgotPass}></stack.Screen>
        <stack.Screen name='det' component={BookDetails}></stack.Screen> */}
      </stack.Navigator>
    </NavigationContainer>

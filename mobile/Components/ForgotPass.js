@@ -3,10 +3,28 @@ import {View, Text,Image, TouchableOpacity, ScrollView, StyleSheet, Alert, Keybo
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
+import { Formik } from "formik";
+import forgotPassSchema from "../models/forgotPassSchema"
+import { sendPasswordResetEmail } from "firebase/auth";
+import auth from "../backend/FireBase/firbaseConfig" 
 
 
 const ForgotPass = ()=> {
+
+  const ResetPassword = (email)=>{
+    sendPasswordResetEmail(auth, email).then(result=> console.log(result)).catch(e=> console.log(e));
+
+  }
     return(
+
+      <Formik
+      initialValues={{ email: "" }}
+      validateOnMount = {true}
+      onSubmit ={values=> ResetPassword(values.email)}
+      validationSchema= {forgotPassSchema}
+      >
+        {({ handleChange, handleBlur, handleSubmit,touched,errors,isValid, values }) => (
+
       <KeyboardAvoidingView style={{flex:1}}>
         <ScrollView contentContainerStyle={style.screen}>
          <View style={style.img}>
@@ -15,9 +33,9 @@ const ForgotPass = ()=> {
        
           
           <View style={{display: "flex"}}>
-            <View></View>
-            <Text style={{color: "white"}}> Forgot your Password? </Text>
-            <Text style={{color: "white"}}> No worries enter your email and we will send you instructions</Text>
+            
+            <Text style={{color: "white", textAlign: "center", fontSize: 30, fontWeight: "bolds", marginBottom: 10}}> Forgot your Password? </Text>
+            <Text style={{color: "white", textAlign: "center", fontSize: 17, marginBottom: 15}}> No worries enter your email and we will send you instructions</Text>
            
           <TextInput 
           style={style.text} 
@@ -25,11 +43,18 @@ const ForgotPass = ()=> {
           mode="outlined"  
           underlineColor="#fc5203"
           activeUnderlineColor="#fc5203" 
-          theme={{colors:{text: "white", placeholder: "white"}}} ></TextInput>
+          theme={{colors:{text: "white", placeholder: "white"}}} 
+          onChangeText={handleChange('email')}
+          onBlur={handleBlur('email')}
+          value={values.email}
+          ></TextInput>
+           {(errors.email && touched.email)&& <Text style= {{color:"white", fontSize: 10, color: "red"}}> {errors.email}</Text>}
 
           <Button
+          onPress={handleSubmit}
+          disabled= {!isValid}
           mode="contained"
-          style = {{borderRadius: 40, marginTop: 10}}
+          style = {{borderRadius: 40, marginTop: 10, backgroundColor: isValid?"#ebb82d": "#c9c3b1"}}
           labelStyle={{ color: "white", fontSize: 18 }}
           color = "#ebb82d"
           >Send Email</Button>
@@ -41,6 +66,8 @@ const ForgotPass = ()=> {
   
         </ScrollView>
         </KeyboardAvoidingView>
+        )}
+        </Formik>
         
       );
 }
@@ -62,7 +89,7 @@ const style = StyleSheet.create({
       alignItems:'center',
       justifyContent:'center',
       marginTop: 20,
-      marginBottom: 80,
+      marginBottom: 20,
       width: 250,
       height: 110,
       marginHorizontal: 50
