@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
 import style from "../styles/login"
-// import auth from "../backend/FireBase/firbaseConfig"
+import auth from "../backend/FireBase/firbaseConfig"
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Formik } from "formik";
 import loginSchema from "../models/userSchema"
@@ -13,10 +13,9 @@ import loginSchema from "../models/userSchema"
 
 const Login=({navigation})=>{
 
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  
 
-  const signIn = ()=> {
+  const signIn = (email, pass)=> {
     signInWithEmailAndPassword(auth, email, pass ).then((result)=>{
       navigation.navigate("Home");
     }).catch((e)=> console.log(e));
@@ -29,7 +28,7 @@ const Login=({navigation})=>{
       <Formik
       initialValues={{ email: '' , password: ""}}
       validateOnMount = {true}
-      onSubmit ={values=> console.log(values)}
+      onSubmit ={values=> signIn(values.email, values.password)}
       validationSchema= {loginSchema}
       >
         {({ handleChange, handleBlur, handleSubmit,touched,errors,isValid, values }) => (
@@ -49,25 +48,29 @@ const Login=({navigation})=>{
            onBlur={handleBlur('email')}
            
            value={values.email} label="enter username" mode="outlined"   underlineColor="#fc5203" activeUnderlineColor="#fc5203" theme={{colors:{text: "white", placeholder: "white"}}} ></TextInput>
-          {(errors.email && touched.email)&& <Text style= {{color:"white"}}> {errors.email}</Text>}
+          {(errors.email && touched.email)&& <Text style= {{color:"white", fontSize: 10, color: "red"}}> {errors.email}</Text>}
           <TextInput style={style.text} onChangeText={handleChange('password')}
            onBlur={handleBlur('password')}
-           value={values.password} label='enter password' mode="outlined"  underlineColor="#fc5203" activeUnderlineColor="#fc5203"  theme={{colors:{text: "white", placeholder: "white"}}}></TextInput>
+           value={values.password} 
+           secureTextEntry
+           label='enter password' mode="outlined"  underlineColor="#fc5203" activeUnderlineColor="#fc5203"  theme={{colors:{text: "white", placeholder: "white"}}}></TextInput>
           
-          {(errors.password && touched.password)&& <Text style= {{color:"white"}}> {errors.password}</Text>}
+          {(errors.password && touched.password)&& <Text style= {{color:"white", fontSize: 10, color: "red"}}> {errors.password}</Text>}
           {/* <TouchableOpacity style = {style.button} onPress= {signIn}>
               <LinearGradient   start={{x: 0, y: 0}} end={{x: 1, y: 0.5}} colors={['#fc0303','#fc5203', '#fcc603', ]}>
                   <Text style={style.buttonText}>Login</Text>
               </LinearGradient>
           </TouchableOpacity> */}
           <Button 
-          style = {{borderRadius: 40, marginTop: 10}}
+          disabled= {true}
+          onPress={handleSubmit}
+          style = {{borderRadius: 40, marginTop: 10,backgroundColor: isValid?"#ebb82d": "#c9c3b1"}}
           labelStyle={{ color: "white", fontSize: 18 }}
           mode="contained"
           color="#ebb82d"> Login</Button>
           <View style= {{display: "flex", flexDirection: "row-reverse", marginTop: 10}}>
             <TouchableOpacity>
-              <Text style={{color: "white", fontSize: 12}}>Forgot Password? click Here</Text>
+              <Text style={{color: "white", fontSize: 12, marginBottom: 5}}>Forgot Password?  <Text style={{color: "#ebb82d", fontSize: 12}} >click Here</Text></Text>
             </TouchableOpacity>
           </View>
 

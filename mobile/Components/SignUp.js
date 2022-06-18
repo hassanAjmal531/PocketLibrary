@@ -3,25 +3,40 @@ import {Alert,KeyboardAvoidingView,View, Text,Image, TouchableOpacity, ScrollVie
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
-//import auth from "../backend/FireBase/firbaseConfig" 
+import auth from "../backend/FireBase/firbaseConfig" 
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Formik } from "formik";
+import SignUpSchema from "../models/SignupSchema"
 
 
 
 const SignUP = ({navigation})=> {
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState ("");
-  const [cnfrm, setCnfrm] = useState("");
+  const [checkUserExist, setUserExists] = useState(false);
 
-  const signUp = ()=>{
+  const signUp = (email, pass)=>{
 
     createUserWithEmailAndPassword(auth, email, pass).then((result)=> {
-      console.log(result);
-    }).catch(e=> console.log(e))
+      navigation.navigate("Home")
+    }).catch(e=> {
+      console.log(e)
+      setUserExists(true);
+      console.log(checkUserExist)
+    })
   }
 
 
     return(
+      <Formik
+      initialValues={{ email: "" , password: "", confirmPassword: ""}}
+      validateOnMount = {true}
+      onSubmit ={values=> signUp(values.email, values.password)}
+      validationSchema= {SignUpSchema}
+      
+      >
+        {({ handleChange, handleBlur, handleSubmit,touched,errors,isValid, values }) => (
+
+
+      <KeyboardAvoidingView style={{flex:1}}>
         <ScrollView contentContainerStyle={style.screen}>
          <View style={style.img}>
           <Image style={style.img}  source={require("../Images/Logo.png")}></Image>
@@ -29,58 +44,96 @@ const SignUP = ({navigation})=> {
        
           
           <View>
+            <Text style= {{color: "white",fontSize: 30, fontWeight : "bold", marginBottom: 10 }}> Sign UP</Text>
            
           <TextInput 
           style={style.text} 
-          label="please enter email" 
-          mode="flat"   
-          underlineColor="#fc5203" 
+          label="Enter Email" 
+          mode="outlined"   
+          underlineColor="white" 
           activeUnderlineColor="#fc5203" 
-          theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}} 
-          onChangeText= {text => setEmail(text)}
+          theme={{colors:{text: "white", placeholder: "white"}}} 
+          onChangeText={handleChange('email')}
+          onBlur={handleBlur('email')}
+          value={values.email} 
+        
           >
-
+           
           </TextInput>
+
+          {(errors.email && touched.email)&& <Text style= {{color:"white", fontSize: 10, color: "red"}}> {errors.email}</Text>}
+
 
           <TextInput 
           style={style.text} 
-          label='please enter password' 
-          mode="flat"  
+          label='Enter Password' 
+          mode="outlined"  
           underlineColor="#fc5203" 
           activeUnderlineColor="#fc5203"  
-          theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}}
-          onChangeText= {text => setPass(text)}
+          theme={{colors:{text: "white", placeholder: "white"}}}
+          onChangeText={handleChange('password')}
+          onBlur={handleBlur('password')}
+          value={values.password} 
           >
 
           </TextInput>
+
+          {(errors.password && touched.password)&& <Text style= {{color:"white", fontSize: 10, color: "red"}}> {errors.password}</Text>}
 
           <TextInput 
           style={style.text} 
-          label='confirm password' 
-          mode="flat"  
+          label='Confirm Password' 
+          mode="outlined"  
           underlineColor="#fc5203" 
           activeUnderlineColor="#fc5203"  
-          theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}}
-          onChangeText= {text => setCnfrm(text)}
+          theme={{colors:{text: "white", placeholder: "white"}}}
+          onChangeText={handleChange('confirmPassword')}
+          onBlur={handleBlur('confirmPassword')}
+          value={values.confirmPassword} 
           >
 
           </TextInput>
+          {(errors.confirmPassword && touched.confirmPassword)&& <Text style= {{color:"white", fontSize: 10, color: "red"}}> {errors.confirmPassword}</Text>}
+
+          {checkUserExist && <Text style= {{color:"white", fontSize: 10, color: "red"}}> An account already exists with this email. please login with the email or reset the password using forgot password</Text> }
 
 
-          <TouchableOpacity style = {style.button} onPress= {()=>{
+
+          {checkUserExist && <View style= {{display: "flex", flexDirection: "row-reverse", marginTop: 10}}>
+            <TouchableOpacity>
+              <Text style={{color: "white", fontSize: 12, marginBottom: 5}}>Forgot Password? <Text style={{color: "#ebb82d", fontSize: 12}} >click Here</Text></Text>
+            </TouchableOpacity>
+          </View>}
+
+          <Button 
+          onPress={handleSubmit}
+           disabled= {!isValid}
+          mode="contained"
+          style = {{borderRadius: 40, marginTop: 10,backgroundColor: isValid?"#ebb82d": "#c9c3b1" }}
+          labelStyle={{ color: "white", fontSize: 18 }}
+          color = "#ebb82d"
+          
+          >Create account</Button>
+
+
+          {/* <TouchableOpacity style = {style.button} onPress= {()=>{
             signUp(email, pass);
 
           }}>
               <LinearGradient   start={{x: 0, y: 0}} end={{x: 1, y: 0.5}} colors={['#fc0303','#fc5203', '#fcc603', ]}>
                   <Text style={style.buttonText}>Sigup</Text>
               </LinearGradient>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
             
             
           </View>
   
   
         </ScrollView>
+        </KeyboardAvoidingView>
+        )}
+
+        </Formik>
         
       );
 }
@@ -92,7 +145,7 @@ const style = StyleSheet.create({
       display:'flex',
       flexDirection: 'column',
       paddingHorizontal: 20,
-      paddingTop: 150,
+      paddingTop: 20,
       backgroundColor: "#000000",
       
 
@@ -102,7 +155,7 @@ const style = StyleSheet.create({
       alignItems:'center',
       justifyContent:'center',
       marginTop: 20,
-      marginBottom: 80,
+      marginBottom: 20,
       width: 250,
       height: 110,
       marginHorizontal: 50
