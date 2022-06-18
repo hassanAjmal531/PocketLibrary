@@ -5,7 +5,7 @@ const style = StyleSheet.create({
       display:'flex',
       flexDirection: 'column',
       paddingHorizontal: 20,
-      paddingTop: 150,
+      paddingTop: 20,
       backgroundColor: "#000000"
 
   
@@ -14,7 +14,7 @@ const style = StyleSheet.create({
       alignItems:'center',
       justifyContent:'center',
       marginTop: 20,
-      marginBottom: 80,
+      marginBottom: 20,
       width: 250,
       height: 110,
       marginHorizontal: 50
@@ -27,7 +27,8 @@ const style = StyleSheet.create({
     fontSize: 15,
     fontWeight:'bold',
     marginVertical: 5,
-    backgroundColor: "#000000"
+    backgroundColor: "#000000",
+    borderRadius: 10
     
 
   },
@@ -54,7 +55,8 @@ const style = StyleSheet.create({
   },
   signupview:{
     alignItems: 'center',
-    marginVertical: 5
+    marginVertical: 5,
+    flexDirection: "row"
   },
   signup:{
     marginTop:2,

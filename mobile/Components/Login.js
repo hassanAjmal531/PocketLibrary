@@ -1,11 +1,13 @@
 import React ,{useState} from "react";
-import {View, Text,Image, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
+import {View, Text,Image, TouchableOpacity, ScrollView, StyleSheet, KeyboardAvoidingView} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
 import style from "../styles/login"
 // import auth from "../backend/FireBase/firbaseConfig"
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { Formik } from "formik";
+import loginSchema from "../models/userSchema"
 
 
 
@@ -23,27 +25,55 @@ const Login=({navigation})=>{
     
 
     return(
+      
+      <Formik
+      initialValues={{ email: '' , password: ""}}
+      validateOnMount = {true}
+      onSubmit ={values=> console.log(values)}
+      validationSchema= {loginSchema}
+      >
+        {({ handleChange, handleBlur, handleSubmit,touched,errors,isValid, values }) => (
+
+
+     <KeyboardAvoidingView style={{flex: 1}}>
       <ScrollView contentContainerStyle= {style.screen}>
         
         <View style={style.img}>
           <Image style={style.img}  source={require("../Images/Logo.png")}></Image>
         </View>
-        <View>
+        <View style= {{paddingHorizontal: 20}}>
+          <Text style= {{color: "white",fontSize: 30, fontWeight : "bold", marginBottom: 10 }}>Welcome</Text>
           
         
-          <TextInput style={style.text} onChangeText={(text)=> setEmail(text)} label="enter username" mode="flat"   underlineColor="#fc5203" activeUnderlineColor="#fc5203" theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}} ></TextInput>
+          <TextInput style={style.text} onChangeText={handleChange('email')}
+           onBlur={handleBlur('email')}
+           
+           value={values.email} label="enter username" mode="outlined"   underlineColor="#fc5203" activeUnderlineColor="#fc5203" theme={{colors:{text: "white", placeholder: "white"}}} ></TextInput>
+          {(errors.email && touched.email)&& <Text style= {{color:"white"}}> {errors.email}</Text>}
+          <TextInput style={style.text} onChangeText={handleChange('password')}
+           onBlur={handleBlur('password')}
+           value={values.password} label='enter password' mode="outlined"  underlineColor="#fc5203" activeUnderlineColor="#fc5203"  theme={{colors:{text: "white", placeholder: "white"}}}></TextInput>
           
-          <TextInput style={style.text} onChangeText = {(text)=> setPass(text)} label='enter password' mode="flat"  underlineColor="#fc5203" activeUnderlineColor="#fc5203"  theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}}></TextInput>
-          
-          <TouchableOpacity style = {style.button} onPress= {signIn}>
+          {(errors.password && touched.password)&& <Text style= {{color:"white"}}> {errors.password}</Text>}
+          {/* <TouchableOpacity style = {style.button} onPress= {signIn}>
               <LinearGradient   start={{x: 0, y: 0}} end={{x: 1, y: 0.5}} colors={['#fc0303','#fc5203', '#fcc603', ]}>
                   <Text style={style.buttonText}>Login</Text>
               </LinearGradient>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <Button 
+          style = {{borderRadius: 40, marginTop: 10}}
+          labelStyle={{ color: "white", fontSize: 18 }}
+          mode="contained"
+          color="#ebb82d"> Login</Button>
+          <View style= {{display: "flex", flexDirection: "row-reverse", marginTop: 10}}>
+            <TouchableOpacity>
+              <Text style={{color: "white", fontSize: 12}}>Forgot Password? click Here</Text>
+            </TouchableOpacity>
+          </View>
 
           
           <View style={style.signupview}>
-          <Text>Dont have an account? no worries you can sign up</Text>
+          <Text style= {{color: "white"}}>Dont have an account? </Text>
           <TouchableOpacity onPress= {()=> navigation.navigate("signup")} >
               
               <Text style={style.signup}>signup</Text>
@@ -56,12 +86,17 @@ const Login=({navigation})=>{
           
           
           
-        </View>
+     </View>
        
         
 
 
       </ScrollView>
+      </KeyboardAvoidingView>
+
+)}
+      </Formik>
+
     );
 
   
