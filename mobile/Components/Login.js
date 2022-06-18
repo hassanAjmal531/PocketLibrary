@@ -13,12 +13,17 @@ import loginSchema from "../models/userSchema"
 
 const Login=({navigation})=>{
 
-  
+  const [userNotFound, setUserNotFound] = useState(false);
 
   const signIn = (email, pass)=> {
     signInWithEmailAndPassword(auth, email, pass ).then((result)=>{
+      setUserNotFound(true)
       navigation.navigate("Home");
-    }).catch((e)=> console.log(e));
+    }).catch((e)=> {
+      console.log(e)
+      setUserNotFound(true)
+      console.log(userNotFound)
+    });
     
   }
     
@@ -42,6 +47,8 @@ const Login=({navigation})=>{
         </View>
         <View style= {{paddingHorizontal: 20}}>
           <Text style= {{color: "white",fontSize: 30, fontWeight : "bold", marginBottom: 10 }}>Welcome</Text>
+
+          {userNotFound && <Text style= {{color:"white", fontSize: 13, color: "red"}}>Incorrect Email or Password</Text>}
           
         
           <TextInput style={style.text} onChangeText={handleChange('email')}
@@ -62,7 +69,7 @@ const Login=({navigation})=>{
               </LinearGradient>
           </TouchableOpacity> */}
           <Button 
-          disabled= {true}
+          disabled= {!isValid}
           onPress={handleSubmit}
           style = {{borderRadius: 40, marginTop: 10,backgroundColor: isValid?"#ebb82d": "#c9c3b1"}}
           labelStyle={{ color: "white", fontSize: 18 }}

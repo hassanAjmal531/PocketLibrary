@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text,Image, TouchableOpacity, ScrollView, StyleSheet, Alert} from "react-native";
+import {View, Text,Image, TouchableOpacity, ScrollView, StyleSheet, Alert, KeyboardAvoidingView} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
@@ -7,33 +7,40 @@ import LinearGradient from "react-native-linear-gradient";
 
 const ForgotPass = ()=> {
     return(
+      <KeyboardAvoidingView style={{flex:1}}>
         <ScrollView contentContainerStyle={style.screen}>
          <View style={style.img}>
           <Image style={style.img}  source={require("../Images/Logo.png")}></Image>
         </View>
        
           
-          <View>
-            <Text> Forgot Password</Text>
+          <View style={{display: "flex"}}>
+            <View></View>
+            <Text style={{color: "white"}}> Forgot your Password? </Text>
+            <Text style={{color: "white"}}> No worries enter your email and we will send you instructions</Text>
            
           <TextInput 
           style={style.text} 
           label="Enter Email" 
-          mode="flat"  
+          mode="outlined"  
           underlineColor="#fc5203"
           activeUnderlineColor="#fc5203" 
-          theme={{colors:{text: "#fcd808", placeholder: "#fc5203"}}} ></TextInput>
-          <TouchableOpacity style = {style.button} onPress= {()=>{Alert.alert("message", "password updated")}}>
-              <LinearGradient   start={{x: 0, y: 0}} end={{x: 1, y: 0.5}} colors={['#fc0303','#fc5203', '#fcc603', ]}>
-                  <Text style={style.buttonText}>change Pass</Text>
-              </LinearGradient>
-          </TouchableOpacity>
+          theme={{colors:{text: "white", placeholder: "white"}}} ></TextInput>
+
+          <Button
+          mode="contained"
+          style = {{borderRadius: 40, marginTop: 10}}
+          labelStyle={{ color: "white", fontSize: 18 }}
+          color = "#ebb82d"
+          >Send Email</Button>
+          
             
             
           </View>
   
   
         </ScrollView>
+        </KeyboardAvoidingView>
         
       );
 }
@@ -45,7 +52,7 @@ const style = StyleSheet.create({
       display:'flex',
       flexDirection: 'column',
       paddingHorizontal: 20,
-      paddingTop: 150,
+      paddingTop: 40,
       backgroundColor: "#000000",
       
 

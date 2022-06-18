@@ -60,7 +60,7 @@ const style = StyleSheet.create({
   },
   signup:{
     marginTop:2,
-    color:"white",
+    color: "#ebb82d",
     textDecorationLine:'underline',
     fontSize: 17
   },
