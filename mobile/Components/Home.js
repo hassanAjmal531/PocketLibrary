@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Button, Card , Paragraph, Title, TextInput } from "react-native-paper";
-import {Image,Dimensions,View ,Text, ScrollView, StyleSheet,  Alert,KeyboardAvoidingView} from "react-native"
+import {Image,Dimensions,View ,Text, ScrollView, StyleSheet,  Alert,KeyboardAvoidingView, TouchableOpacity} from "react-native"
 import { NavigationContainer } from '@react-navigation/native';
 import axios from "axios";
 import Book from "./Book";
@@ -9,6 +9,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Update from "./update";
 import Slider from "../Components2/slider";
 import CardBook from "../Components2/CardBook";
+import Header from "../Components2/header";
+import { Formik } from "formik";
+import searchSchema from "../models/SearchSchema";
 
 
 const {width, height} = Dimensions.get("screen");
@@ -17,34 +20,58 @@ const tab = createBottomTabNavigator();
 const component = ({navigation})=>{
 
     const [data, setData] = useState([]);
+    const[tData, setTData] = useState([]);
     const [query, setquery] = useState("");
-    const [pageButton, setPageButton] = useState(0)
+    const [pageButton, setPageButton] = useState(0);
+    const [checkSearch, setSearch] = useState(true)
     
     const paginationIndex = 0;
-    var intialtquery = `https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40&filter=free-ebooks&startIndex=${paginationIndex}`;
-    var searchQuery = `https://www.googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=40&filter=free-ebooks&startIndex=${paginationIndex}`;
-
+    var intialtquery = `https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=30&filter=free-ebooks&startIndex=0`;
+    var trendingQuery = `https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=10&filter=free-ebooks&startIndex=50`;
     
 
-    const search =async (query)=> {
+    const search =async ()=> {
         
-            
-        const data=  await axios.get(searchQuery)
-      setData(data.data.items)
+        var searchQuery = `https://www.googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=5&filter=free-ebooks&startIndex=${paginationIndex}`;
 
+        const data=  await axios.get(searchQuery)
+        setData(data.data.items)
+        console.log(data.data.items)
+        setSearch(false);
 
     }
 
     useEffect(async ()=>{
-    const data=  await axios.get(intialtquery)
-      setData(data.data.items)
+    const data1= await axios.get(intialtquery).then(result => setData(result.data.items)).catch(e=> console.log(e))
+    setSearch(true);
+   
+    
+    // const data2 = await axios.get(trendingQuery).catch(e=> {})
+    // setData(data1.data.items)
+    // setTData(data2.data.items)
+    // console.log(data);
+   
+  
       
      
     }, [])
 
-    return (<KeyboardAvoidingView style = {{ backgroundColor: "#141414", flex: 1}}>
+    return (
+        <Formik
+        initialValues={{ search:""}}
+      validateOnMount = {true}
+      onSubmit ={values=> signIn(values.email, values.password)}
+      validationSchema= {searchSchema}
+        >
+
+{({ handleChange, handleBlur, handleSubmit,touched,errors,isValid, values }) => (
+    
+    
+    <KeyboardAvoidingView style = {{ backgroundColor: "#141414", flex: 1}}>
         <ScrollView  contentContainerStyle={{flex: 1}}>
             <View style ={{flex: 1, alignItems: "center", paddingTop: 10, backgroundColor: "black"}}>
+
+                
                 <Image style= {{width: 250, height: 60}} source={require("../Images/Logo.png")}></Image>
                 <View style={{display:"flex", flexDirection:"row", paddingHorizontal: 20, paddingBottom: 20, }} >
                     <TextInput 
@@ -53,10 +80,22 @@ const component = ({navigation})=>{
                     mode="outlined"  
                     underlineColor="#fc5203" 
                     activeUnderlineColor="#fc5203"  
-                    theme={{colors:{text: "white", placeholder: "white"}}} ></TextInput>
-                    <Button color="#ebb82d" mode="contained" labelStyle={{ color: "white", fontSize: 18 }} style={{height:40, marginTop: 10}}> Search</Button>
+                    theme={{colors:{text: "white", placeholder: "white"}}}
+                    activeOutlineColor= "white"
+                    outlineColor= "white"
+                    onChangeText={handleChange('search')}
+                    onBlur={handleBlur('search')}
+                    
+                    value={values.search}
+                    ></TextInput>
+
+                    <Button icon="magnify" color="#ebb82d" mode="contained" labelStyle={{ color: "white", fontSize: 18 }} style={{textAlign: "center",height:40, marginTop: 10, backgroundColor: isValid?"#ebb82d": "#c9c3b1"}} disabled = {!isValid}  
+                    onPress={handleSubmit}
+                    > </Button>
                 </View>
-                <Slider/>
+                {checkSearch&&<View style= {{flex: 1, alignItems: "center"}}>
+
+                <Slider data= {data} nav ={navigation}/>
 
                 {/* <View style={{height: 200,marginBottom: 10}}>
                     <Text style= {{color: "white", fontSize: 20, fontWeight: "bold", marginBottom: 10, textAlign: "center", fontStyle: "italic"}}> Trending</Text>
@@ -70,23 +109,41 @@ const component = ({navigation})=>{
                 </View> */}
                 <Title style={{color: "white", fontStyle:"italic", borderBottomColor: "white", borderBottomWidth:1, marginBottom: 15}}>Explore</Title>
                 <ScrollView style={{display:"flex"}}>
-                    
-                    <CardBook/>
-                    <CardBook/>
-                    <CardBook/>
-                    <CardBook/>
-                    <CardBook/>
-                    <CardBook/>
-                    <CardBook/>
-                    <CardBook/>
+                    {console.log(data)}
+                    {data.map((item)=>{
+                        
+                        return (<TouchableOpacity onPress={()=>navigation.navigate("det", {book:item})} >
+                            <CardBook nav ={navigation} item={item} key={Math.random()}></CardBook>
+                        </TouchableOpacity>)
+                    })}
                 </ScrollView>
+                </View>}
+
+                {!checkSearch && <View style= {{flex: 1, alignItems: "center"}}>
+                    <Text style={{color: "white", fontSize: 15, fontWeight: "bold", marginBottom:20, marginTop:20}}>Result of your search</Text>
+                    <ScrollView style={{display:"flex"}}>
+                    {console.log(data)}
+                    {data.map((item)=>{
+                        
+                        return (<TouchableOpacity onPress={()=>navigation.navigate("det", {book:item})} >
+                            <CardBook nav ={navigation} item={item} key={Math.random()}></CardBook>
+                        </TouchableOpacity>)
+                    })}
+                </ScrollView>
+
+                    </View>}
                 
 
             </View>
         </ScrollView>
 
 
-    </KeyboardAvoidingView>)
+    </KeyboardAvoidingView>
+)}
+    </Formik>
+   
+    
+    )
 
 
 

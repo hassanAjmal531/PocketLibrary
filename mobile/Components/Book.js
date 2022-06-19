@@ -5,11 +5,11 @@ import StarRating from "react-native-star-rating-widget"
 const {width} = Dimensions.get("window")
 const Book = (props)=>{
     return(
-      <TouchableOpacity >
+      <TouchableOpacity onPress={()=> props.nav.navigate("det", {book: props.item})} >
       
       <View style= {{width: 130, backgroundColor:"white", marginHorizontal:7, flex: 1, borderRadius: 20}}>
         
-        <ImageBackground style= {{flex:1}} source={require("../Images/book.png")}>
+        <ImageBackground style= {{flex:1}} source={{uri: props.item.volumeInfo.imageLinks.thumbnail}}>
         
           
         </ImageBackground>

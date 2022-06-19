@@ -56,8 +56,8 @@ const App= () => {
        {/* <stack.Screen name='login' component={Login}></stack.Screen>
        <stack.Screen options={{headerShown: false}} name='signup' component={SignUp}></stack.Screen> */}
        <stack.Screen options={{headerShown: false}} name='Home' component={Home} ></stack.Screen>
-       {/* <stack.Screen name='forgot' component={ForgotPass}></stack.Screen>
-       <stack.Screen name='det' component={BookDetails}></stack.Screen> */}
+       <stack.Screen name='forgot' component={ForgotPass}></stack.Screen>
+       <stack.Screen name='det' component={BookDetails}></stack.Screen>
      </stack.Navigator>
    </NavigationContainer>
   );
