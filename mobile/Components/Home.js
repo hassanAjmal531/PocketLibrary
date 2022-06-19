@@ -1,18 +1,19 @@
 import React, {useState, useEffect} from "react";
-import { Button, Card , Paragraph, Title } from "react-native-paper";
-import {Image,Dimensions,View ,Text, ScrollView, StyleSheet,TextInput,  Alert} from "react-native"
+import { Button, Card , Paragraph, Title, TextInput } from "react-native-paper";
+import {Image,Dimensions,View ,Text, ScrollView, StyleSheet,  Alert,KeyboardAvoidingView} from "react-native"
 import { NavigationContainer } from '@react-navigation/native';
 import axios from "axios";
 import Book from "./Book";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Fav from "./favourite"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { async } from "@firebase/util";
-import { configureProps } from "react-native-reanimated/lib/reanimated2/core";
 import Update from "./update";
-const {width} = Dimensions.get("window");
+import Slider from "../Components2/slider";
+import CardBook from "../Components2/CardBook";
 
+
+const {width, height} = Dimensions.get("screen");
 const tab = createBottomTabNavigator();
+
 const component = ({navigation})=>{
 
     const [data, setData] = useState([]);
@@ -41,35 +42,83 @@ const component = ({navigation})=>{
      
     }, [])
 
-   
-    return (<SafeAreaView style={style.main}>
-        <View style= {style.container}>
-            <Title style= {style. Maintitle}> Pocket Library</Title>
-            <View style= {style.searchBar}>
-                        
-                <TextInput 
-                style= {style.search} 
-                placeholder= "What would you like to read?" 
-                placeholderTextColor="#adacaa" 
-                onChangeText={(text)=>setquery(text)}></TextInput>
-                <Button style={style.icon} icon="magnify" onPress={()=> search(query)}></Button>
+    return (<KeyboardAvoidingView style = {{ backgroundColor: "#141414", flex: 1}}>
+        <ScrollView  contentContainerStyle={{flex: 1}}>
+            <View style ={{flex: 1, alignItems: "center", paddingTop: 10, backgroundColor: "black"}}>
+                <Image style= {{width: 250, height: 60}} source={require("../Images/Logo.png")}></Image>
+                <View style={{display:"flex", flexDirection:"row", paddingHorizontal: 20, paddingBottom: 20, }} >
+                    <TextInput 
+                    style={{flex: 5, height: 40, marginRight: 10, backgroundColor: "black"}}
+                    label="What would you like to read" 
+                    mode="outlined"  
+                    underlineColor="#fc5203" 
+                    activeUnderlineColor="#fc5203"  
+                    theme={{colors:{text: "white", placeholder: "white"}}} ></TextInput>
+                    <Button color="#ebb82d" mode="contained" labelStyle={{ color: "white", fontSize: 18 }} style={{height:40, marginTop: 10}}> Search</Button>
+                </View>
+                <Slider/>
+
+                {/* <View style={{height: 200,marginBottom: 10}}>
+                    <Text style= {{color: "white", fontSize: 20, fontWeight: "bold", marginBottom: 10, textAlign: "center", fontStyle: "italic"}}> Trending</Text>
+                    <ScrollView horizontal= {true} contentContainerStyle={{}}>
+                    <Book nav = {navigation} title= "abc" disc = "abc" img={"../Images/book.png"} ></Book>
+                    <Book nav = {navigation} title= "aasdfgc" disc = "abc" img={"../Images/book.png"} ></Book>
+                    <Book nav = {navigation} title= "abasdfgc" disc = "abc" img={"../Images/book.png"} ></Book>
+                    <Book nav = {navigation} title= "abasdrtasxmvisejfvbnc" disc = "abc" img={"../Images/book.png"} ></Book>
+                    <Book nav = {navigation} title= "abajdngiadcinasc" disc = "abc" img={"../Images/book.png"} ></Book>
+                    </ScrollView>
+                </View> */}
+                <Title style={{color: "white", fontStyle:"italic", borderBottomColor: "white", borderBottomWidth:1, marginBottom: 15}}>Explore</Title>
+                <ScrollView style={{display:"flex"}}>
+                    
+                    <CardBook/>
+                    <CardBook/>
+                    <CardBook/>
+                    <CardBook/>
+                    <CardBook/>
+                    <CardBook/>
+                    <CardBook/>
+                    <CardBook/>
+                </ScrollView>
+                
 
             </View>
-            <Title style= {style. Maintitle}> For You</Title>
+        </ScrollView>
+
+
+    </KeyboardAvoidingView>)
+
+
+
+   
+    // return (<View style={{display : "flex", flex: 1}}>
+    //     <View style= {style.container}>
+    //         <Title style= {style. Maintitle}> Pocket Library</Title>
+    //         <View style= {style.searchBar}>
+                        
+    //             <TextInput 
+    //             style= {style.search} 
+    //             placeholder= "What would you like to read?" 
+    //             placeholderTextColor="#adacaa" 
+    //             onChangeText={(text)=>setquery(text)}></TextInput>
+    //             <Button style={style.icon} icon="magnify" onPress={()=> search(query)}></Button>
+
+    //         </View>
+    //         <Title style= {style. Maintitle}> For You</Title>
           
-        </View>
-        <View>
-        <ScrollView>
-            <View style = {{flex: 1, backgroundColor : 'orange  '}}>
-                {data.map((item)=> {
+    //     </View>
+    //     <View>
+    //     <ScrollView>
+    //         {/* <View style = {{flex: 1, backgroundColor : 'orange  '}}>
+    //             {data.map((item)=> {
                     
                 
-               return <Book nav = {navigation} title= {item.volumeInfo.title} disc = {item.volumeInfo.authors} item= {item}   ></Book>})}
+    //            return <Book nav = {navigation} title= {item.volumeInfo.title} disc = {item.volumeInfo.authors} item= {item}   ></Book>})}
                 
-            </View>
+    //         </View> */}
 
-        </ScrollView>
-        </View>
+    //     </ScrollView>
+    //     </View>
         
 
         {/* <SafeAreaView >
@@ -85,15 +134,28 @@ const component = ({navigation})=>{
                 </View>
             </ScrollView>
         </SafeAreaView> */}
-    </SafeAreaView>
-    )
+    // </View>
+    // )
 }
 
 const Home = ()=> {
     return (
         
-      <tab.Navigator>
-        <tab.Screen name="Home" component={component} />
+      <tab.Navigator 
+      screenOptions={{headerShown: false, 
+       
+        tabBarActiveTintColor: "#ebb82d",
+        tabBarStyle: {
+            backgroundColor: "black",
+            
+    }}}
+      
+      
+      >
+        <tab.Screen 
+
+        
+        name="Home" component={component} />
         <tab.Screen name="Favourites" component={Fav} />
         <tab.Screen name="up" component={Update} />
       </tab.Navigator>
@@ -104,7 +166,7 @@ const Home = ()=> {
 const style = StyleSheet.create({
     main: {
         flex: 1,
-        backgroundColor: "black",
+        backgroundColor: "white",
         display: "flex",
         width: width
     },

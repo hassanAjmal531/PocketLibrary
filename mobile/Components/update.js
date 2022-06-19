@@ -78,7 +78,7 @@ const Update = ()=> {
             style = {{borderRadius: 40, marginTop: 10, backgroundColor: isValid?"#ebb82d": "#c9c3b1"}}
             labelStyle={{ color: "white", fontSize: 18 }}
             color = "#ebb82d"
-            >Send Email</Button>
+            >Update</Button>
             
               
               
