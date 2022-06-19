@@ -9,6 +9,7 @@ import Fav from "./favourite"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { async } from "@firebase/util";
 import { configureProps } from "react-native-reanimated/lib/reanimated2/core";
+import Update from "./update";
 const {width} = Dimensions.get("window");
 
 const tab = createBottomTabNavigator();
@@ -94,6 +95,7 @@ const Home = ()=> {
       <tab.Navigator>
         <tab.Screen name="Home" component={component} />
         <tab.Screen name="Favourites" component={Fav} />
+        <tab.Screen name="up" component={Update} />
       </tab.Navigator>
     
     );

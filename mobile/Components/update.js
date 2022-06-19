@@ -1,15 +1,34 @@
 import React from "react";
-import { View, Text, KeyboardAvoidingView, Image, ScrollView, StyleSheet } from "react-native";
+import { View, Text, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Alert } from "react-native";
 import { TextInput , Button} from "react-native-paper";
 import { Formik } from "formik";
+
+import { getAuth, updatePassword } from "firebase/auth";
+import auth from "../backend/FireBase/firbaseConfig"
 
 import confirmSchema from "../models/confirmPasswordSchema"
 
 const Update = ()=> {
+  
+  const PassUpdate = (pass)=> {
+    const user = auth.currentUser;
+    console.log(user);
+    updatePassword(user, pass).then(() => {
+      Alert.alert("password updated successfully")
+      
+    }).catch((error) => {
+      // An error ocurred
+      // ...
+    });
+
+
+  }
+
+
     return ( <Formik
-        initialValues={{ password: "", Npassword: "", confirmPassword: "" }}
+        initialValues={{  Npassword: "", confirmPassword: "" }}
         validateOnMount = {true}
-        onSubmit ={values=> ResetPassword(values.email)}
+        onSubmit ={values=> PassUpdate(values.Npassword)}
         validationSchema= {confirmSchema}
         >
           {({ handleChange, handleBlur, handleSubmit,touched,errors,isValid, values }) => (
@@ -25,19 +44,7 @@ const Update = ()=> {
               
               <Text style={{color: "white", textAlign: "center", fontSize: 30, fontWeight: "bolds", marginBottom: 10}}> Update Profile Password </Text>
              
-            <TextInput 
-            style={style.text} 
-            label="Enter Password" 
-            mode="outlined"  
-            underlineColor="#fc5203"
-            activeUnderlineColor="#fc5203" 
-            theme={{colors:{text: "white", placeholder: "white"}}} 
-            onChangeText={handleChange('password')}
-            onBlur={handleBlur('password')}
-            value={values.password}
-            ></TextInput>
-             {(errors.password && touched.password)&& <Text style= {{color:"white", fontSize: 10, color: "red"}}> {errors.password}</Text>}
-
+             
              <TextInput 
             style={style.text} 
             label="Enter New Password" 
