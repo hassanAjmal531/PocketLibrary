@@ -2,17 +2,32 @@ import React from "react";
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView, Linking} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Title , Paragraph, Button} from "react-native-paper";
-
+import { doc, updateDoc, arrayUnion, arrayRemove , getDoc} from "firebase/firestore";
+import auth, {db} from "../backend/FireBase/firbaseConfig" 
 import StarRating from "react-native-star-rating-widget";
 
 const {widht,height} = Dimensions.get("window")
 const BookDetails = ({navigation, route}) => {
+    const book = route.params.book;
+      console.log(book.volumeInfo.previewLink);
 
       const openBook = async(url)=>{
         await Linking.openURL(url).then(data=> console.log(data)).catch(e=> console.log(e))
       }
-      const book = route.params.book;
-      console.log(book.volumeInfo.previewLink);
+
+      const AddToFavourite = async  (book)=>{
+        
+        
+        const uid = auth.currentUser.uid;
+        console.log(uid)
+        const Doc = doc(db, "users", uid);
+
+
+       console.log( await getDoc(Doc));
+
+      }
+
+      
     return (<View style={style.main}>
         <ScrollView>
         <View style={style.bookImageView}>
@@ -40,7 +55,7 @@ const BookDetails = ({navigation, route}) => {
             
         </View>
         <Button style= {style.button}
-        onPress= {()=> openBook(book.volumeInfo.previewLink)}  >
+        onPress= {()=> AddToFavourite(book)}  >
                 <Text style={style.buttonText}> Read Book</Text>
         </Button>
             

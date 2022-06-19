@@ -3,19 +3,24 @@ import {Alert,KeyboardAvoidingView,View, Text,Image, TouchableOpacity, ScrollVie
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
-import auth from "../backend/FireBase/firbaseConfig" 
+import auth, {db} from "../backend/FireBase/firbaseConfig" 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Formik } from "formik";
 import SignUpSchema from "../models/SignupSchema"
+import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 
 
 
 const SignUP = ({navigation})=> {
   const [checkUserExist, setUserExists] = useState(false);
 
-  const signUp = (email, pass)=>{
+  const signUp = async(email, pass)=>{
 
     createUserWithEmailAndPassword(auth, email, pass).then((result)=> {
+      console.log(result.user.uid);
+       setDoc(doc(db, "users", result.user.uid), {
+        fav:[]
+      });
       navigation.navigate("Home")
     }).catch(e=> {
       console.log(e)
