@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Title, Paragraph } from "react-native-paper";
 import { Dimensions, Text, View } from "react-native";
+import StarRating from "react-native-star-rating-widget";
 
 const {width} = Dimensions.get("window")
 
@@ -14,7 +15,16 @@ const BookCard =(props)=>{
             <Paragraph style= {{color: "#ebb82d"}}>Authors</Paragraph>
             <View style={{display:"flex", flexDirection:"row", flexWrap:"wrap"}}>
                 <Text >{props.item.volumeInfo.authors!=="undefined"?props.item.volumeInfo.authors: "author not available"}</Text>
+                <View>
+            <StarRating
+                onChange={()=> console.log("askds")}
+                disabled= {true}
+                rating = {3}
+                ></StarRating>
+
             </View>
+            </View>
+            
         </Card.Content>
     </Card>);
 

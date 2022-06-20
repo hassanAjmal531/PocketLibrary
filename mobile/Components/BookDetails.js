@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView, Linking} from "react-native";
+import React, {useState} from "react";
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, Linking, Alert, } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Title , Paragraph, Button} from "react-native-paper";
 import { doc, updateDoc, arrayUnion, arrayRemove , getDoc} from "firebase/firestore";
@@ -8,6 +8,7 @@ import StarRating from "react-native-star-rating-widget";
 
 const {widht,height} = Dimensions.get("window")
 const BookDetails = ({navigation, route}) => {
+   const [fav, setFav] = useState(false);
     const book = route.params.book;
       console.log(book.volumeInfo.previewLink);
 
@@ -18,12 +19,45 @@ const BookDetails = ({navigation, route}) => {
       const AddToFavourite = async  (book)=>{
         
         
+        
         const uid = auth.currentUser.uid;
         console.log(uid)
         const Doc = doc(db, "users", uid);
+        updateDoc(Doc, {
+            fav: arrayUnion(book.id)
+        }).then(res=>{
+            Alert.alert("book added to fav")
+            setFav(true)
+        })
+        .catch(e=>console.log(e));
+
+        
+        // const data = await getDoc(Doc);
 
 
-       console.log( await getDoc(Doc));
+       
+
+      }
+
+      const removeFavourite = async  (book)=>{
+        
+        
+        
+        const uid = auth.currentUser.uid;
+        console.log(uid)
+        const Doc = doc(db, "users", uid);
+        updateDoc(Doc, {
+            fav: arrayRemove(book.id)
+        }).then(res=>{
+            Alert.alert("book removed from fav")
+            setFav(false)
+        })
+        .catch(e=>console.log(e));
+
+        
+        // const data = await getDoc(Doc);
+
+
 
       }
 
@@ -48,9 +82,18 @@ const BookDetails = ({navigation, route}) => {
             <Text style = {style.rating1}>Rating</Text>
             <Text style = {style.rating}> 4</Text>
             </View>
-            <TouchableOpacity style={style.ratingView}>
-                <Text style = {style.rating1}>Fav</Text>
-            </TouchableOpacity>
+
+            
+            <Button icon="heart" onPress={()=> {
+                if(fav === false){
+                    AddToFavourite(book)
+
+                }else{
+                    removeFavourite(book)
+                }
+            }} style={style.ratingView}>
+                <Text style = {style.rating1}></Text>
+            </Button>
             
             
         </View>
@@ -132,7 +175,7 @@ const style = StyleSheet.create({
     rating1:{
         color: "white",
         fontWeight: "normal",
-        fontSize: 17
+        fontSize: 15
     },
     rating: {
         color: "white",

@@ -32,7 +32,7 @@ const component = ({navigation})=>{
 
     const search =async ()=> {
         
-        var searchQuery = `https://www.googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=5&filter=free-ebooks&startIndex=${paginationIndex}`;
+        var searchQuery = `https://www.googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=5&filter=free-ebooks`;
 
         const data=  await axios.get(searchQuery)
         setData(data.data.items)
@@ -43,7 +43,7 @@ const component = ({navigation})=>{
 
     useEffect(async ()=>{
     const data1= await axios.get(intialtquery).then(result => setData(result.data.items)).catch(e=> console.log(e))
-    setSearch(true);
+    
    
     
     // const data2 = await axios.get(trendingQuery).catch(e=> {})
@@ -60,7 +60,7 @@ const component = ({navigation})=>{
         <Formik
         initialValues={{ search:""}}
       validateOnMount = {true}
-      onSubmit ={values=> signIn(values.email, values.password)}
+      onSubmit ={values=> search(values.search)}
       validationSchema= {searchSchema}
         >
 

@@ -10,33 +10,8 @@ import Swiper from "react-native-swiper";
 import { Item } from "react-native-paper/lib/typescript/components/List/List";
 const {width} = Dimensions.get("window");
 const Fav = ()=>{
-    const data= [
-        {
-            id: 1,
-            title: "welcome Home",
-            disc: "abcsbheshbh"
-        },
-        {
-            id: 2,
-            title: "the obsticle is the way",
-            disc: "abcsbheshbh"
-        },
-        {
-            id: 4,
-            title: "how to win friends and influence papers",
-            disc: "abcsbheshbh"
-        },
-        {
-            id: 5,
-            title: "the obsticle is the way",
-            disc: "abcsbheshbh"
-        },
-        {
-            id: 6,
-            title: "how to win friends and influence papers",
-            disc: "abcsbheshbh"
-        }
-    ]
+   
+    
     return (<SafeAreaView style={style.main}>
         <View style= {style.container}>
             <Title style= {style. Maintitle}> Pocket Library</Title>
