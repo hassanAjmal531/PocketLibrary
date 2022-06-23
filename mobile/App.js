@@ -59,7 +59,7 @@ const App= () => {
      screenOptions={{headerShown: false}}>
       
       
-       <stack.Screen name='login' component={Login}></stack.Screen>
+       {/* <stack.Screen name='login' component={Login}></stack.Screen> */}
        
        <stack.Screen options={{headerShown: false}} name='Home' component={Home} ></stack.Screen>
        <stack.Screen options={{headerShown: false}} name='signup' component={SignUp}></stack.Screen>

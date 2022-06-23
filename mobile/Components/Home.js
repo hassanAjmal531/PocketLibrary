@@ -13,6 +13,8 @@ import Header from "../Components2/header";
 import { Formik } from "formik";
 import searchSchema from "../models/SearchSchema";
 import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar";
+import { getAuth, updatePassword, signOut } from "firebase/auth";
+import auth from "../backend/FireBase/firbaseConfig"
 
 
 const {width, height} = Dimensions.get("screen");
@@ -43,6 +45,17 @@ const component = ({navigation})=>{
         setSearch(false);
 
     }
+    const SignOut = ()=>{
+        console.log(auth.currentUser);
+        signOut(auth).then(()=>{
+            navigation.navigate("login")
+          
+        }).catch(()=>{
+          
+        })
+    
+    
+      }
 
     useEffect(async ()=>{
     const data1= await axios.get(intialtquery).then(result => setData(result.data.items)).catch(e=> console.log(e))
@@ -71,11 +84,17 @@ const component = ({navigation})=>{
     
     
     <KeyboardAvoidingView style = {{ backgroundColor: "#141414", flex: 1}}>
-        <ScrollView  contentContainerStyle={{flex: 1}}>
+        <ScrollView  contentContainerStyle={{flex: 1,backgroundColor:"black"}}>
+        <Button 
+        onPress={()=>SignOut()}
+        color="#ebb82d"
+        mode="contained"
+                style={{width: 60}}
+                labelStyle={{fontSize: 10}}
+                >logout</Button>
             <View style ={{flex: 1, alignItems: "center", paddingTop: 10, backgroundColor: "black"}}>
 
-                
-                <Image style= {{width: 250, height: 60}} source={require("../Images/Logo.png")}></Image>
+            <Image style= {{width: 250, height: 60}} source={require("../Images/Logo.png")}></Image>
                 <View style={{display:"flex", flexDirection:"row", paddingHorizontal: 20, paddingBottom: 20, }} >
                     <TextInput 
                     style={{flex: 5, height: 40, marginRight: 10, backgroundColor: "black"}}
