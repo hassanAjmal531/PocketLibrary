@@ -1,5 +1,5 @@
 import React , {useEffect, useState}from "react";
-import {Alert,KeyboardAvoidingView,View, Text,Image, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
+import {Alert,KeyboardAvoidingView,View, Text,Image, TouchableOpacity, ScrollView, StyleSheet, ActivityIndicator} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
@@ -15,15 +15,15 @@ import { async } from "@firebase/util";
 
 const SignUP = ({navigation})=> {
   const [checkUserExist, setUserExists] = useState(false);
-
+  const [activity, setAcvity] = useState(true);
   const signUp = async(email, pass)=>{
     var uid ;
+    setAcvity(false)
    
     createUserWithEmailAndPassword(auth, email, pass)
     .then(async res=>{
-      setDoc(doc(db, "users", res.user.uid), {
-        fav:[]
-      }).then(res=> console.log("data added"));
+      
+      navigation.navigate("Home");
     })
     
     
@@ -80,7 +80,8 @@ const SignUP = ({navigation})=> {
           theme={{colors:{text: "white", placeholder: "white"}}}
           onChangeText={handleChange('password')}
           onBlur={handleBlur('password')}
-          value={values.password} 
+          value={values.password}
+          secureTextEntry 
           >
 
           </TextInput>
@@ -97,6 +98,7 @@ const SignUP = ({navigation})=> {
           onChangeText={handleChange('confirmPassword')}
           onBlur={handleBlur('confirmPassword')}
           value={values.confirmPassword} 
+          secureTextEntry
           >
 
           </TextInput>
@@ -112,7 +114,7 @@ const SignUP = ({navigation})=> {
             </TouchableOpacity>
           </View>}
 
-          <Button 
+          {activity === true? <Button 
           onPress={handleSubmit}
            disabled= {!isValid}
           mode="contained"
@@ -120,7 +122,7 @@ const SignUP = ({navigation})=> {
           labelStyle={{ color: "white", fontSize: 18 }}
           color = "#ebb82d"
           
-          >Create account</Button>
+          >Create account</Button>: <View style={{backgroundColor:"#ebb82d", height: 40, justifyContent:"center", borderRadius:40}}><ActivityIndicator color="white"></ActivityIndicator></View>}
 
 
           {/* <TouchableOpacity style = {style.button} onPress= {()=>{

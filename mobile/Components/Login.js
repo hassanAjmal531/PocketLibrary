@@ -1,5 +1,5 @@
 import React ,{useState} from "react";
-import {View, Text,Image, TouchableOpacity, ScrollView, StyleSheet, KeyboardAvoidingView} from "react-native";
+import {View, Text,Image, TouchableOpacity, ScrollView, StyleSheet, KeyboardAvoidingView, ActivityIndicator} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
@@ -14,10 +14,13 @@ import loginSchema from "../models/userSchema"
 const Login=({navigation})=>{
 
   const [userNotFound, setUserNotFound] = useState(false);
+  const [activity, setAcvity] = useState(true);
 
   const signIn = (email, pass)=> {
+    setAcvity(false)
     signInWithEmailAndPassword(auth, email, pass ).then((result)=>{
       setUserNotFound(true)
+      setAcvity(true)
       navigation.navigate("Home");
     }).catch((e)=> {
       console.log(e)
@@ -68,13 +71,15 @@ const Login=({navigation})=>{
                   <Text style={style.buttonText}>Login</Text>
               </LinearGradient>
           </TouchableOpacity> */}
-          <Button 
+          {activity === true?<Button 
           disabled= {!isValid}
           onPress={handleSubmit}
           style = {{borderRadius: 40, marginTop: 10,backgroundColor: isValid?"#ebb82d": "#c9c3b1"}}
           labelStyle={{ color: "white", fontSize: 18 }}
           mode="contained"
-          color="#ebb82d"> Login</Button>
+          color="#ebb82d">Login </Button>: <View style={{backgroundColor:"#ebb82d", height: 40, justifyContent:"center", borderRadius:40}}><ActivityIndicator color="white"></ActivityIndicator></View>}
+
+          
           <View style= {{display: "flex", flexDirection: "row-reverse", marginTop: 10}}>
             <TouchableOpacity onPress={()=> navigation.navigate("forgot")}>
               <Text style={{color: "white", fontSize: 12, marginBottom: 5}}>Forgot Password?  <Text style={{color: "#ebb82d", fontSize: 12}} >click Here</Text></Text>

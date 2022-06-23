@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Alert } from "react-native";
+import React, {useState} from "react";
+import { View, Text, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { TextInput , Button} from "react-native-paper";
 import { Formik } from "formik";
 
@@ -8,13 +8,17 @@ import auth from "../backend/FireBase/firbaseConfig"
 
 import confirmSchema from "../models/confirmPasswordSchema"
 
-const Update = (props)=> {
+const Update = ({navigation})=> {
+  const [activity, setAcvity] = useState(true);
   
   const PassUpdate = (pass)=> {
+    setAcvity(false)
     const user = auth.currentUser;
+    
     console.log(user);
     updatePassword(user, pass).then(() => {
       Alert.alert("password updated successfully")
+      setAcvity(true)
       
     }).catch((error) => {
       // An error ocurred
@@ -26,11 +30,9 @@ const Update = (props)=> {
 
 
   const SignOut = ()=>{
-    signOut(auth).then(()=>{
-      
-    }).catch(()=>{
-      
-    })
+    signOut(auth)
+      navigation.navigate("login")
+  
 
 
   }
@@ -66,6 +68,7 @@ const Update = (props)=> {
             onChangeText={handleChange('Npassword')}
             onBlur={handleBlur('Npassword')}
             value={values.Npassword}
+            secureTextEntry
             ></TextInput>
              {(errors.Npassword && touched.Npassword)&& <Text style= {{color:"white", fontSize: 10, color: "red"}}> {errors.Npassword}</Text>}
 
@@ -79,17 +82,18 @@ const Update = (props)=> {
             onChangeText={handleChange('confirmPassword')}
             onBlur={handleBlur('confirmPassword')}
             value={values.confirmPassword}
+            secureTextEntry
             ></TextInput>
              {(errors.confirmPassword && touched.confirmPassword)&& <Text style= {{color:"white", fontSize: 10, color: "red"}}> {errors.confirmPassword}</Text>}
   
-            <Button
+             {activity === true?<Button
             onPress={handleSubmit}
             disabled= {!isValid}
             mode="contained"
             style = {{borderRadius: 40, marginTop: 10, backgroundColor: isValid?"#ebb82d": "#c9c3b1"}}
             labelStyle={{ color: "white", fontSize: 18 }}
             color = "#ebb82d"
-            >Update</Button>
+            >Update</Button>:<View style={{backgroundColor:"#ebb82d", height: 40, justifyContent:"center", borderRadius:40}}><ActivityIndicator color="white"></ActivityIndicator></View>}
 
             <View style={{display:"flex", flexDirection:"row-reverse"}}>
               <Button 

@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Button, Card , Paragraph, Title, TextInput } from "react-native-paper";
 import {Image,Dimensions,View ,Text, ScrollView, StyleSheet,  Alert,KeyboardAvoidingView, TouchableOpacity} from "react-native"
-import { NavigationContainer } from '@react-navigation/native';
 import axios from "axios";
 import Book from "./Book";
 import Fav from "./favourite"
@@ -12,10 +11,9 @@ import CardBook from "../Components2/CardBook";
 import Header from "../Components2/header";
 import { Formik } from "formik";
 import searchSchema from "../models/SearchSchema";
-import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar";
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { getAuth, updatePassword, signOut } from "firebase/auth";
 import auth from "../backend/FireBase/firbaseConfig"
-
 
 const {width, height} = Dimensions.get("screen");
 const tab = createBottomTabNavigator();
@@ -33,7 +31,7 @@ const component = ({navigation})=>{
     var trendingQuery = `https://www.googleapis.com/books/v1/volumes?q=java&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=10&filter=free-ebooks&startIndex=50`;
     
 
-    const search =async ()=> {
+    const search =async (query)=> {
         
         var searchQuery = `https://www.googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=5&filter=free-ebooks`;
         console.log(searchQuery);
@@ -85,13 +83,7 @@ const component = ({navigation})=>{
     
     <KeyboardAvoidingView style = {{ backgroundColor: "#141414", flex: 1}}>
         <ScrollView  contentContainerStyle={{flex: 1,backgroundColor:"black"}}>
-        <Button 
-        onPress={()=>SignOut()}
-        color="#ebb82d"
-        mode="contained"
-                style={{width: 60}}
-                labelStyle={{fontSize: 10}}
-                >logout</Button>
+        
             <View style ={{flex: 1, alignItems: "center", paddingTop: 10, backgroundColor: "black"}}>
 
             <Image style= {{width: 250, height: 60}} source={require("../Images/Logo.png")}></Image>
@@ -233,7 +225,9 @@ const Home = ({navigation})=> {
       >
         <tab.Screen 
 
-        
+options={{
+    tabBarIcon: () => (<Icon style={{color: "white"}} name="fa-house"></Icon>)
+}} 
         name="Home" component={component} />
         <tab.Screen name="Favourites" component={Fav} />
         <tab.Screen nav = {navigation} name="up" component={Update} />
