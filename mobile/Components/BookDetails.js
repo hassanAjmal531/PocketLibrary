@@ -20,6 +20,7 @@ const BookDetails = ({navigation, route}) => {
       const openBook = async(url)=>{
         // await Linking.openURL(url).then(data=> console.log(data)).catch(e=> console.log(e))
         AsyncStorage.clear();
+        AsyncStorage.getItem(book.id).then(res=>console.log(res))
         
       }
 
@@ -29,16 +30,16 @@ const BookDetails = ({navigation, route}) => {
         var data;
         AsyncStorage.setItem(book.id, JSON.stringify(book))
         // AsyncStorage.getItem(book.id).then(res=>console.log(res))
-        AsyncStorage.getAllKeys().then(keys=>{
-            console.log(keys)
-            AsyncStorage.multiGet(keys).then(data=>{
-                data.map((res, i, data)=>{
-                    // console.log(JSON.parse(data[i][1]))
+    //     AsyncStorage.getAllKeys().then(keys=>{
+    //         console.log(keys)
+    //         AsyncStorage.multiGet(keys).then(data=>{
+    //             data.map((res, i, data)=>{
+    //                 // console.log(JSON.parse(data[i][1]))
                    
-                    console.log(JSON.parse(data[i][1]).volumeInfo.title)
-                })
-            })
-      });
+    //                 console.log(JSON.parse(data[i][1]).volumeInfo.title)
+    //             })
+    //         })
+    //   });
        
         // 
         
@@ -69,7 +70,7 @@ const BookDetails = ({navigation, route}) => {
         
         setFav(false);
         AsyncStorage.removeItem(book.id);
-        AsyncStorage.getItem(book.id).then(res=>console.log(res))
+        // AsyncStorage.getItem(book.id).then(res=>console.log(res))
         // AsyncStorage.getItem('data').then(e=> {
         //     console.log(e)
         //     setFav(false)

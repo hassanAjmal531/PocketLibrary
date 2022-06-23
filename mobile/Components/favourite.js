@@ -25,6 +25,7 @@ const component = ({navigation})=>{
             AsyncStorage.multiGet(keys)
             .then((data)=>{
                 setData(data);
+                // console.log(data)
                 
             })
         })
@@ -48,18 +49,7 @@ const component = ({navigation})=>{
 
     }
 
-    const getData = ()=>{
-             AsyncStorage.getAllKeys().then(keys=>{
-            AsyncStorage.multiGet(keys)
-            .then((data)=>{
-                setData(data);
-                setKey(Object.keys(data));
-                
-            })
-        })
-
-    }
-
+   
     // getData();
     
 
@@ -91,10 +81,10 @@ const component = ({navigation})=>{
                 <ScrollView style={{display:"flex"}}>
 
                 {data.map((res, i, data)=>{
-                    // console.log(JSON.parse(data[i][1]))
+                    
                     
                    
-                    return (<CardBook item={JSON.parse(data[i][1])}></CardBook>)
+                    return ( <CardBook item={JSON.parse(data[i][1])}></CardBook>)
                 })}
                     
                 </ScrollView>
