@@ -1,37 +1,40 @@
 import React, {useState, useEffect} from "react";
 import { Button, Card , Paragraph, Title, TextInput } from "react-native-paper";
 import {Image,Dimensions,View ,Text, ScrollView, StyleSheet,  Alert,KeyboardAvoidingView, TouchableOpacity} from "react-native"
-import { NavigationContainer } from '@react-navigation/native';
-import axios from "axios";
-import Book from "./Book";
-import Fav from "./favourite"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Update from "./update";
-import Slider from "../Components2/slider";
 import CardBook from "../Components2/CardBook";
-import Header from "../Components2/header";
+import axios from "axios";
+
+;
 import { Formik } from "formik";
 import searchSchema from "../models/SearchSchema";
-import { doc, updateDoc, arrayUnion, arrayRemove , getDoc} from "firebase/firestore";
-import auth, {db} from "../backend/FireBase/firbaseConfig" 
-import FavCard from "../Components2/FavCard";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const {width, height} = Dimensions.get("screen");
-const tab = createBottomTabNavigator();
+
 
 const component = ({navigation})=>{
-
+    
     const [data, setData] = useState([]);
     const [query, setquery] = useState("");
-    const [checkSearch, setSearch] = useState(true)
-    const [favList, setFavList] = useState([]);
+    const [key, setKey] = useState([])
 
-    const id = ["WVLXDwAAQBAJ","6qLNAAAAMAAJ"];
+    useEffect(()=>{
+        AsyncStorage.getAllKeys().then(keys=>{
+            AsyncStorage.multiGet(keys)
+            .then((data)=>{
+                setData(data);
+                
+            })
+        })
+
+    }, [])
+
+
+
     
-    const paginationIndex = 0;
-    var intialtquery = `https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=30&filter=free-ebooks&startIndex=0`;
-    var trendingQuery = `https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=10&filter=free-ebooks&startIndex=50`;
+    
     
 
     const search =async ()=> {
@@ -45,57 +48,24 @@ const component = ({navigation})=>{
 
     }
 
-    const loadData = async()=> {
-        const data = ["WVLXDwAAQBAJ","6qLNAAAAMAAJ"]
-        return data.map(item=> {
-            
-            return  (<CardBook ></CardBook>)
+    const getData = ()=>{
+             AsyncStorage.getAllKeys().then(keys=>{
+            AsyncStorage.multiGet(keys)
+            .then((data)=>{
+                setData(data);
+                setKey(Object.keys(data));
+                
+            })
         })
-        
+
     }
 
-    useEffect(async ()=>{
-
-   
-        // const Doc = doc(db, "users", uid);
-        // const data = await getDoc(Doc);
-        // setFavList(data.data());
-
-    
-   
-    
-    // const data2 = await axios.get(trendingQuery).catch(e=> {})
-    // setData(data1.data.items)
-    // setTData(data2.data.items)
-    // console.log(data);
-   
-  
-      
-     
-    }, [])
+    // getData();
     
 
-    const removeFavourite = async  (book)=>{
-        
-        
-        
-        const uid = auth.currentUser.uid;
-        console.log(uid)
-        const Doc = doc(db, "users", uid);
-        updateDoc(Doc, {
-            fav: arrayRemove(book.id)
-        }).then(res=>{
-            Alert.alert("book removed from fav")
-            setFav(false)
-        })
-        .catch(e=>console.log(e));
+    
+    
 
-        
-        // const data = await getDoc(Doc);
-
-
-
-      }
 
     return (
         <Formik
@@ -104,6 +74,7 @@ const component = ({navigation})=>{
       onSubmit ={values=> search(values.search)}
       validationSchema= {searchSchema}
         >
+            
 
 {({ handleChange, handleBlur, handleSubmit,touched,errors,isValid, values }) => (
     
@@ -112,17 +83,19 @@ const component = ({navigation})=>{
         <ScrollView  contentContainerStyle={{flex: 1}}>
             <View style ={{flex: 1, alignItems: "center", paddingTop: 10, backgroundColor: "black"}}>
 
-                
+               
                 <Image style= {{width: 250, height: 60}} source={require("../Images/Logo.png")}></Image>
                <View style= {{flex: 1, alignItems: "center"}}>
 
                 <Title style={{color: "white", fontStyle:"italic", borderBottomColor: "white", borderBottomWidth:1, marginBottom: 15}}>your favourites</Title>
                 <ScrollView style={{display:"flex"}}>
-                    {id.map(item=> {
-                        return (<TouchableOpacity onPress={()=>navigation.navigate("det", {book:item})} >
-                        <FavCard ></FavCard>
-                    </TouchableOpacity>)
-                    })}
+
+                {data.map((res, i, data)=>{
+                    // console.log(JSON.parse(data[i][1]))
+                    
+                   
+                    return (<CardBook item={JSON.parse(data[i][1])}></CardBook>)
+                })}
                     
                 </ScrollView>
                 </View>
@@ -191,30 +164,7 @@ const component = ({navigation})=>{
     // )
 }
 
-const Home = ()=> {
-    return (
-        
-      <tab.Navigator 
-      screenOptions={{headerShown: false, 
-       
-        tabBarActiveTintColor: "#ebb82d",
-        tabBarStyle: {
-            backgroundColor: "black",
-            
-    }}}
-      
-      
-      >
-        <tab.Screen 
 
-        
-        name="Home" component={component} />
-        <tab.Screen name="Favourites" component={Fav} />
-        <tab.Screen name="up" component={Update} />
-      </tab.Navigator>
-    
-    );
-}
 
 const style = StyleSheet.create({
     main: {
@@ -309,4 +259,4 @@ const style = StyleSheet.create({
 
 });
 
-export default module = Home;
+export default module = component;

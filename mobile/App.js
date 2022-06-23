@@ -40,14 +40,14 @@ import Update from './Components/update';
 import login from './styles/login';
 import auth from "./backend/FireBase/firbaseConfig"
 
+
 const stack = createNativeStackNavigator();
 
 const App= () => {
   var user;
 
   useEffect(()=>{
-    user = auth.currentUser;
-    console.log(user);
+   
 
 
   });
@@ -61,8 +61,9 @@ const App= () => {
       
        {/* <stack.Screen name='login' component={Login}></stack.Screen> */}
        
+       
+       {/* <stack.Screen options={{headerShown: false}} name='signup' component={SignUp}></stack.Screen> */}
        <stack.Screen options={{headerShown: false}} name='Home' component={Home} ></stack.Screen>
-       <stack.Screen options={{headerShown: false}} name='signup' component={SignUp}></stack.Screen>
        <stack.Screen name='forgot' component={ForgotPass}></stack.Screen>
        <stack.Screen name='det' component={BookDetails}></stack.Screen>
      </stack.Navigator>

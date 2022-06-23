@@ -5,6 +5,8 @@ import { Title , Paragraph, Button} from "react-native-paper";
 import { doc, updateDoc, arrayUnion, arrayRemove , getDoc} from "firebase/firestore";
 import auth, {db} from "../backend/FireBase/firbaseConfig" 
 import StarRating from "react-native-star-rating-widget";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { async } from "@firebase/util";
 
 const {widht,height} = Dimensions.get("window")
 const BookDetails = ({navigation, route}) => {
@@ -13,27 +15,49 @@ const BookDetails = ({navigation, route}) => {
     const title = book.volumeInfo.title;
       console.log(title.length);
 
+      
+
       const openBook = async(url)=>{
-        await Linking.openURL(url).then(data=> console.log(data)).catch(e=> console.log(e))
+        // await Linking.openURL(url).then(data=> console.log(data)).catch(e=> console.log(e))
+        AsyncStorage.clear();
+        
       }
 
       const AddToFavourite = async  (book)=>{
+        setFav(true)
+        
+        var data;
+        AsyncStorage.setItem(book.id, JSON.stringify(book))
+        // AsyncStorage.getItem(book.id).then(res=>console.log(res))
+        AsyncStorage.getAllKeys().then(keys=>{
+            console.log(keys)
+            AsyncStorage.multiGet(keys).then(data=>{
+                data.map((res, i, data)=>{
+                    // console.log(JSON.parse(data[i][1]))
+                   
+                    console.log(JSON.parse(data[i][1]).volumeInfo.title)
+                })
+            })
+      });
+       
+        // 
+        
+    
+        
+        // AsyncStorage.getItem('data').then(e=> {
+        //    data = e;
+        //    console.log(data);
+        //    AsyncStorage.setItem(book.id,data+"+"+book.id ).then(()=> {
+        //     console.log("in add to fav");
+            
+        // });
+        // }).catch(e=>console.log(e))
         
         
+       
         
-        const uid = auth.currentUser.uid;
-        console.log(uid)
-        const Doc = doc(db, "users", uid);
-        updateDoc(Doc, {
-            fav: arrayUnion(book.id)
-        }).then(res=>{
-            Alert.alert("book added to fav")
-            setFav(true)
-        })
-        .catch(e=>console.log(e));
-
         
-        // const data = await getDoc(Doc);
+       
 
 
        
@@ -43,20 +67,23 @@ const BookDetails = ({navigation, route}) => {
       const removeFavourite = async  (book)=>{
         
         
-        
-        const uid = auth.currentUser.uid;
-        console.log(uid)
-        const Doc = doc(db, "users", uid);
-        updateDoc(Doc, {
-            fav: arrayRemove(book.id)
-        }).then(res=>{
-            Alert.alert("book removed from fav")
-            setFav(false)
-        })
-        .catch(e=>console.log(e));
+        setFav(false);
+        AsyncStorage.removeItem(book.id);
+        AsyncStorage.getItem(book.id).then(res=>console.log(res))
+        // AsyncStorage.getItem('data').then(e=> {
+        //     console.log(e)
+        //     setFav(false)
+           
+        //     let id = e.split("+")
+        //     id = id.filter(item=> item !==book.id).join("+")
+        //     AsyncStorage.setItem("data",id ).then(()=> {
+        //         console.log("in remove");
+                
+        //     });
 
+        //     console.log(id)
+        // }).catch(e=>console.log(e))
         
-        // const data = await getDoc(Doc);
 
 
 
@@ -90,9 +117,11 @@ const BookDetails = ({navigation, route}) => {
             
             <Button labelStyle={{color: "red", fontSize: 15}} icon="heart" onPress={()=> {
                 if(fav === false){
-                    AddToFavourite(book)
+                   AddToFavourite(book)
+                    // removeFavourite(book)
 
-                }else{
+                }
+                else{
                     removeFavourite(book)
                 }
             }} style={style.ratingView}>

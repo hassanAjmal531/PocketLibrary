@@ -3,30 +3,32 @@ import {Alert,KeyboardAvoidingView,View, Text,Image, TouchableOpacity, ScrollVie
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, TouchableRipple , Button, Avatar} from "react-native-paper";
 import LinearGradient from "react-native-linear-gradient";
-import auth, {db} from "../backend/FireBase/firbaseConfig" 
+import auth, {RealtimeDb, db} from "../backend/FireBase/firbaseConfig" 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Formik } from "formik";
 import SignUpSchema from "../models/SignupSchema"
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
-
+import { ref, set, onValue } from "firebase/database";
+import axios from "axios";
+import { async } from "@firebase/util";
 
 
 const SignUP = ({navigation})=> {
   const [checkUserExist, setUserExists] = useState(false);
 
   const signUp = async(email, pass)=>{
-
-    createUserWithEmailAndPassword(auth, email, pass).then((result)=> {
-      console.log(result.user.uid);
-       setDoc(doc(db, "users", result.user.uid), {
+    var uid ;
+   
+    createUserWithEmailAndPassword(auth, email, pass)
+    .then(async res=>{
+      setDoc(doc(db, "users", res.user.uid), {
         fav:[]
-      });
-      navigation.navigate("Home")
-    }).catch(e=> {
-      console.log(e)
-      setUserExists(true);
-      console.log(checkUserExist)
+      }).then(res=> console.log("data added"));
     })
+    
+    
+
+    
   }
 
 

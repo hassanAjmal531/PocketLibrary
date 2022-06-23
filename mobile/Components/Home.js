@@ -131,7 +131,7 @@ const component = ({navigation})=>{
                 </View> */}
                 <Title style={{color: "white", fontStyle:"italic", borderBottomColor: "white",  marginBottom: 15}}>Explore</Title>
                 <ScrollView style={{display:"flex"}}>
-                    {console.log(data)}
+                    
                     {data.map((item)=>{
                         
                         return (<TouchableOpacity onPress={()=>navigation.navigate("det", {book:item})} >
@@ -144,7 +144,7 @@ const component = ({navigation})=>{
                 {!checkSearch && <View style= {{flex: 1, alignItems: "center"}}>
                     <Text style={{color: "white", fontSize: 15, fontWeight: "bold", marginBottom:20, marginTop:20}}>Results</Text>
                     <ScrollView style={{display:"flex"}}>
-                    {console.log(data)}
+                    
                     {data.map((item)=>{
                         
                         return (<TouchableOpacity onPress={()=>navigation.navigate("det", {book:item})} >
