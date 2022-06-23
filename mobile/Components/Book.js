@@ -7,7 +7,7 @@ const Book = (props)=>{
     return(
       <TouchableOpacity onPress={()=> props.nav.navigate("det", {book: props.item})} >
       
-      <View style= {{width: 130, backgroundColor:"white", marginHorizontal:7, flex: 1, borderRadius: 20}}>
+      <View style= {{width: 100, backgroundColor:"white", marginHorizontal:7, flex: 1, borderRadius: 20}}>
         
         <ImageBackground style= {{flex:1}} source={{uri: props.item.volumeInfo.imageLinks.thumbnail}}>
         

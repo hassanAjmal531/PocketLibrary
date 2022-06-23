@@ -3,12 +3,12 @@ import { View, Text, KeyboardAvoidingView, Image, ScrollView, StyleSheet, Alert 
 import { TextInput , Button} from "react-native-paper";
 import { Formik } from "formik";
 
-import { getAuth, updatePassword } from "firebase/auth";
+import { getAuth, updatePassword, signOut } from "firebase/auth";
 import auth from "../backend/FireBase/firbaseConfig"
 
 import confirmSchema from "../models/confirmPasswordSchema"
 
-const Update = ()=> {
+const Update = (props)=> {
   
   const PassUpdate = (pass)=> {
     const user = auth.currentUser;
@@ -20,6 +20,17 @@ const Update = ()=> {
       // An error ocurred
       // ...
     });
+
+
+  }
+
+
+  const SignOut = ()=>{
+    signOut(auth).then(()=>{
+      
+    }).catch(()=>{
+      
+    })
 
 
   }
@@ -79,6 +90,15 @@ const Update = ()=> {
             labelStyle={{ color: "white", fontSize: 18 }}
             color = "#ebb82d"
             >Update</Button>
+
+            <View style={{display:"flex", flexDirection:"row-reverse"}}>
+              <Button 
+              onPress={()=> SignOut()}
+              style = {{borderRadius: 40, marginTop: 15, backgroundColor: "#ebb82d"}}
+              labelStyle={{ color: "white", fontSize: 18 }}
+              color = "#ebb82d"
+              >Logout</Button>
+            </View>
             
               
               

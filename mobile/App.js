@@ -8,7 +8,7 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useEffect} from 'react';
 import 'react-native-gesture-handler'
 import BookDetails from './Components/BookDetails';
 
@@ -37,15 +37,21 @@ import ForgotPass from './Components/ForgotPass';
 import Home from './Components/Home';
 import Fav from './Components/favourite';
 import Update from './Components/update';
+import login from './styles/login';
+import auth from "./backend/FireBase/firbaseConfig"
 
 const stack = createNativeStackNavigator();
 
 const App= () => {
-  const isDarkMode = useColorScheme() === 'dark';
+  var user;
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  useEffect(()=>{
+    user = auth.currentUser;
+    console.log(user);
+
+
+  });
+ 
 
   return (
    <NavigationContainer>
@@ -53,9 +59,10 @@ const App= () => {
      screenOptions={{headerShown: false}}>
       
       
-       <stack.Screen name='login' component={Fav}></stack.Screen>
-       <stack.Screen options={{headerShown: false}} name='signup' component={SignUp}></stack.Screen>
+       <stack.Screen name='login' component={Login}></stack.Screen>
+       
        <stack.Screen options={{headerShown: false}} name='Home' component={Home} ></stack.Screen>
+       <stack.Screen options={{headerShown: false}} name='signup' component={SignUp}></stack.Screen>
        <stack.Screen name='forgot' component={ForgotPass}></stack.Screen>
        <stack.Screen name='det' component={BookDetails}></stack.Screen>
      </stack.Navigator>

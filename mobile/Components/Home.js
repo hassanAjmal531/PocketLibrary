@@ -12,6 +12,7 @@ import CardBook from "../Components2/CardBook";
 import Header from "../Components2/header";
 import { Formik } from "formik";
 import searchSchema from "../models/SearchSchema";
+import { Icon } from "react-native-paper/lib/typescript/components/Avatar/Avatar";
 
 
 const {width, height} = Dimensions.get("screen");
@@ -26,17 +27,19 @@ const component = ({navigation})=>{
     const [checkSearch, setSearch] = useState(true)
     
     const paginationIndex = 0;
-    var intialtquery = `https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=30&filter=free-ebooks&startIndex=0`;
-    var trendingQuery = `https://www.googleapis.com/books/v1/volumes?q=flower&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=10&filter=free-ebooks&startIndex=50`;
+    var intialtquery = `https://www.googleapis.com/books/v1/volumes?q=java&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=30&filter=free-ebooks&startIndex=0`;
+    var trendingQuery = `https://www.googleapis.com/books/v1/volumes?q=java&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=10&filter=free-ebooks&startIndex=50`;
     
 
     const search =async ()=> {
         
         var searchQuery = `https://www.googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAam7TX5fc5V0VCHR84AgJ-ZF1hzqtWBZM&maxResults=5&filter=free-ebooks`;
-
-        const data=  await axios.get(searchQuery)
-        setData(data.data.items)
-        console.log(data.data.items)
+        console.log(searchQuery);
+        const data=  await axios.get(searchQuery).then((data)=>{
+            setData(data.data.items)
+        }).catch(e=>console.log(e))
+       
+       
         setSearch(false);
 
     }
@@ -89,9 +92,9 @@ const component = ({navigation})=>{
                     value={values.search}
                     ></TextInput>
 
-                    <Button icon="magnify" color="#ebb82d" mode="contained" labelStyle={{ color: "white", fontSize: 18 }} style={{textAlign: "center",height:40, marginTop: 10, backgroundColor: isValid?"#ebb82d": "#c9c3b1"}} disabled = {!isValid}  
+                    <Button  color="#ebb82d" mode="contained" labelStyle={{ color: "white", fontSize: 18 }} style={{textAlign: "center",height:40, marginTop: 10, backgroundColor: isValid?"#ebb82d": "#c9c3b1"}} disabled = {!isValid}  
                     onPress={handleSubmit}
-                    > </Button>
+                    > search</Button>
                 </View>
                 {checkSearch&&<View style= {{flex: 1, alignItems: "center"}}>
 
@@ -107,7 +110,7 @@ const component = ({navigation})=>{
                     <Book nav = {navigation} title= "abajdngiadcinasc" disc = "abc" img={"../Images/book.png"} ></Book>
                     </ScrollView>
                 </View> */}
-                <Title style={{color: "white", fontStyle:"italic", borderBottomColor: "white", borderBottomWidth:1, marginBottom: 15}}>Explore</Title>
+                <Title style={{color: "white", fontStyle:"italic", borderBottomColor: "white",  marginBottom: 15}}>Explore</Title>
                 <ScrollView style={{display:"flex"}}>
                     {console.log(data)}
                     {data.map((item)=>{
@@ -120,7 +123,7 @@ const component = ({navigation})=>{
                 </View>}
 
                 {!checkSearch && <View style= {{flex: 1, alignItems: "center"}}>
-                    <Text style={{color: "white", fontSize: 15, fontWeight: "bold", marginBottom:20, marginTop:20}}>Result of your search</Text>
+                    <Text style={{color: "white", fontSize: 15, fontWeight: "bold", marginBottom:20, marginTop:20}}>Results</Text>
                     <ScrollView style={{display:"flex"}}>
                     {console.log(data)}
                     {data.map((item)=>{
@@ -195,7 +198,7 @@ const component = ({navigation})=>{
     // )
 }
 
-const Home = ()=> {
+const Home = ({navigation})=> {
     return (
         
       <tab.Navigator 
@@ -214,7 +217,7 @@ const Home = ()=> {
         
         name="Home" component={component} />
         <tab.Screen name="Favourites" component={Fav} />
-        <tab.Screen name="up" component={Update} />
+        <tab.Screen nav = {navigation} name="up" component={Update} />
       </tab.Navigator>
     
     );

@@ -10,7 +10,8 @@ const {widht,height} = Dimensions.get("window")
 const BookDetails = ({navigation, route}) => {
    const [fav, setFav] = useState(false);
     const book = route.params.book;
-      console.log(book.volumeInfo.previewLink);
+    const title = book.volumeInfo.title;
+      console.log(title.length);
 
       const openBook = async(url)=>{
         await Linking.openURL(url).then(data=> console.log(data)).catch(e=> console.log(e))
@@ -67,24 +68,27 @@ const BookDetails = ({navigation, route}) => {
         <View style={style.bookImageView}>
         
         <Image elevation={100} style={style.img} source={{uri: book.volumeInfo.imageLinks.thumbnail}}></Image>
-        <Title style = {style.title}>
-            {book.volumeInfo.title}
-        </Title>
+        {title.length >=30 ? <Title style = {style.title}>
+            {title}
+            </Title>: <Title style = {style.title2}>
+                {title}
+            
+            </Title>} 
     
         <Paragraph style = {style.author}> {book.volumeInfo.authors}</Paragraph>
         <View style= {style.bar}>
-            <View style={style.ratingView}>
+            {/* <View style={style.ratingView}>
            
             <Text style = {style.rating1}>Rating</Text>
-            <Text style = {style.rating}> 4</Text>
-            </View>
+            <Text style = {style.rating}> {typeof book.volumeInfo.averageRating ==="undefined"? "nom rating Available": book.volumeInfo.averageRating}</Text>
+            </View> */}
             <View style={style.ratingView}>
-            <Text style = {style.rating1}>Rating</Text>
-            <Text style = {style.rating}> 4</Text>
+            <Text style = {style.rating1}>Language</Text>
+            <Text style = {style.rating}> English</Text>
             </View>
 
             
-            <Button icon="heart" onPress={()=> {
+            <Button labelStyle={{color: "red", fontSize: 15}} icon="heart" onPress={()=> {
                 if(fav === false){
                     AddToFavourite(book)
 
@@ -92,21 +96,25 @@ const BookDetails = ({navigation, route}) => {
                     removeFavourite(book)
                 }
             }} style={style.ratingView}>
-                <Text style = {style.rating1}></Text>
+              <Text style={{color: "white"}}>add to fav </Text>
             </Button>
             
             
         </View>
-        <Button style= {style.button}
-        onPress= {()=> AddToFavourite(book)}  >
-                <Text style={style.buttonText}> Read Book</Text>
+        <Button 
+        color="grey"
+        mode="contained"
+        labelStyle={{borderRadius: 13, fontSize: 15, color: "white"}}
+        style= {style.button}
+        onPress= {()=> openBook(book.volumeInfo.previewLink)}  >
+                Read Book
         </Button>
             
         </View>
         <View style = {style.bookDetailView}>
            
            <Title style= {style.detailTitle}> What's its about?</Title>
-            <Paragraph style={style.detail}>{book.volumeInfo.description} </Paragraph>
+            <Paragraph style={style.detail}>{typeof book.volumeInfo.description === "undefined"? "No description of the book is available":book.volumeInfo.description } </Paragraph>
            
            
           
@@ -157,6 +165,12 @@ const style = StyleSheet.create({
     title: {
         color:  "white",
         marginTop: 20,
+        fontSize: 18
+
+    },
+    title2: {
+        color:  "white",
+        marginTop: 20,
         fontSize: 22
 
     },
@@ -184,12 +198,14 @@ const style = StyleSheet.create({
     }, 
     ratingView:{
         marginHorizontal: 40,
-        marginBottom: 20
+        marginBottom: 20,
+        alignItems: "center"
     }, 
     button: {
         marginHorizontal: 10,
         zIndex: 2,
         top: 27,
+        borderRadius: 10
         
     },
     buttonText: {

@@ -6,7 +6,7 @@ import Book from "../Components/Book";
 
 const Slider = (props)=>{
     return(
-        <View style={{height: 200,marginBottom: 10}}>
+        <View style={{height: 180,marginBottom: 10}}>
                     <Text style= {{color: "white", fontSize: 20, fontWeight: "bold", marginBottom: 10, textAlign: "center", fontStyle: "italic"}}> Trending</Text>
                     <ScrollView horizontal= {true} contentContainerStyle={{}}>
                    
