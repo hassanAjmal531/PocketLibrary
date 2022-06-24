@@ -24,6 +24,8 @@ const SignUP = ({navigation})=> {
     .then(async res=>{
       
       navigation.navigate("Home");
+    }).catch(e=>{
+      setAcvity(true)
     })
     
     

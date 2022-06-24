@@ -25,6 +25,7 @@ const Login=({navigation})=>{
     }).catch((e)=> {
       console.log(e)
       setUserNotFound(true)
+      setAcvity(true)
       console.log(userNotFound)
     });
     

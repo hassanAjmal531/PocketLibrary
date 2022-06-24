@@ -214,7 +214,7 @@ const Home = ({navigation})=> {
         
       <tab.Navigator 
       screenOptions={{headerShown: false, 
-       
+        
         tabBarActiveTintColor: "#ebb82d",
         tabBarStyle: {
             backgroundColor: "black",
@@ -226,11 +226,23 @@ const Home = ({navigation})=> {
         <tab.Screen 
 
 options={{
-    tabBarIcon: () => (<Icon style={{color: "white"}} name="fa-house"></Icon>)
+    tabBarLabelStyle: {fontSize: 15, marginBottom: 10},
+    tabBarIcon: () => (<Icon style={{color: "white", height:0}} source={require("../Images/icons8-heart-30.png")}></Icon>)
 }} 
         name="Home" component={component} />
-        <tab.Screen name="Favourites" component={Fav} />
-        <tab.Screen nav = {navigation} name="up" component={Update} />
+        <tab.Screen
+        options={{
+            tabBarLabelStyle: {fontSize: 15, marginBottom: 10},
+            tabBarIcon: () => (<Icon style={{color: "white", height:0}} source={require("../Images/icons8-heart-30.png")}></Icon>)
+        }} 
+         name="Favourites" component={Fav} />
+        <tab.Screen
+        options={{
+            title:"profile",
+            tabBarLabelStyle: {fontSize: 15, marginBottom: 10},
+            tabBarIcon: () => (<Icon style={{color: "white", height:0}} source={require("../Images/icons8-heart-30.png")}></Icon>)
+        }} 
+         nav = {navigation} name="up"  component={Update} />
       </tab.Navigator>
     
     );

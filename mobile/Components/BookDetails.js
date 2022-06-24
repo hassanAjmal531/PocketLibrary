@@ -18,9 +18,9 @@ const BookDetails = ({navigation, route}) => {
       
 
       const openBook = async(url)=>{
-        // await Linking.openURL(url).then(data=> console.log(data)).catch(e=> console.log(e))
-        AsyncStorage.clear();
-        AsyncStorage.getItem(book.id).then(res=>console.log(res))
+        await Linking.openURL(url).then(data=> console.log(data)).catch(e=> console.log(e))
+        // AsyncStorage.clear();
+        // AsyncStorage.getItem(book.id).then(res=>console.log(res))
         
       }
 
@@ -29,39 +29,7 @@ const BookDetails = ({navigation, route}) => {
         
         var data;
         AsyncStorage.setItem(book.id, JSON.stringify(book))
-        // AsyncStorage.getItem(book.id).then(res=>console.log(res))
-    //     AsyncStorage.getAllKeys().then(keys=>{
-    //         console.log(keys)
-    //         AsyncStorage.multiGet(keys).then(data=>{
-    //             data.map((res, i, data)=>{
-    //                 // console.log(JSON.parse(data[i][1]))
-                   
-    //                 console.log(JSON.parse(data[i][1]).volumeInfo.title)
-    //             })
-    //         })
-    //   });
-       
-        // 
-        
-    
-        
-        // AsyncStorage.getItem('data').then(e=> {
-        //    data = e;
-        //    console.log(data);
-        //    AsyncStorage.setItem(book.id,data+"+"+book.id ).then(()=> {
-        //     console.log("in add to fav");
-            
-        // });
-        // }).catch(e=>console.log(e))
-        
-        
-       
-        
-        
-       
-
-
-       
+        Alert.alert("book added to favourite")
 
       }
 
@@ -70,23 +38,8 @@ const BookDetails = ({navigation, route}) => {
         
         setFav(false);
         AsyncStorage.removeItem(book.id);
-        // AsyncStorage.getItem(book.id).then(res=>console.log(res))
-        // AsyncStorage.getItem('data').then(e=> {
-        //     console.log(e)
-        //     setFav(false)
-           
-        //     let id = e.split("+")
-        //     id = id.filter(item=> item !==book.id).join("+")
-        //     AsyncStorage.setItem("data",id ).then(()=> {
-        //         console.log("in remove");
-                
-        //     });
-
-        //     console.log(id)
-        // }).catch(e=>console.log(e))
-        
-
-
+        Alert.alert("book Removed from favourite")
+    
 
       }
 

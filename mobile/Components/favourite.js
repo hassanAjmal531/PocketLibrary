@@ -19,6 +19,7 @@ const component = ({navigation})=>{
     const [data, setData] = useState([]);
     const [query, setquery] = useState("");
     const [key, setKey] = useState([])
+    const [Check, setCheck] = useState(true)
 
     useEffect(()=>{
         AsyncStorage.getAllKeys().then(keys=>{
@@ -53,7 +54,11 @@ const component = ({navigation})=>{
     // getData();
     
 
-    
+    function checkUndefined (data){
+        return typeof data.volumeInfo === "undefined"? false: true
+
+
+    }
     
 
 
@@ -81,11 +86,17 @@ const component = ({navigation})=>{
                 <ScrollView style={{display:"flex"}}>
 
                 {data.map((res, i, data)=>{
+                    return (checkUndefined(JSON.parse(data[i][1]))=== false? <Text></Text>:<CardBook nav ={navigation} item= {JSON.parse(data[i][1])}  key={Math.random()}></CardBook> )
+
+                }
+                
                     
+                //   checkUndefined(JSON.parse(data[i][1])) &&<CardBook nav ={navigation}  key={Math.random()}></CardBook>
                     
                    
-                    return ( <CardBook item={JSON.parse(data[i][1])}></CardBook>)
-                })}
+                    
+                   
+                )}
                     
                 </ScrollView>
                 </View>
@@ -107,51 +118,7 @@ const component = ({navigation})=>{
 
 
    
-    // return (<View style={{display : "flex", flex: 1}}>
-    //     <View style= {style.container}>
-    //         <Title style= {style. Maintitle}> Pocket Library</Title>
-    //         <View style= {style.searchBar}>
-                        
-    //             <TextInput 
-    //             style= {style.search} 
-    //             placeholder= "What would you like to read?" 
-    //             placeholderTextColor="#adacaa" 
-    //             onChangeText={(text)=>setquery(text)}></TextInput>
-    //             <Button style={style.icon} icon="magnify" onPress={()=> search(query)}></Button>
-
-    //         </View>
-    //         <Title style= {style. Maintitle}> For You</Title>
-          
-    //     </View>
-    //     <View>
-    //     <ScrollView>
-    //         {/* <View style = {{flex: 1, backgroundColor : 'orange  '}}>
-    //             {data.map((item)=> {
-                    
-                
-    //            return <Book nav = {navigation} title= {item.volumeInfo.title} disc = {item.volumeInfo.authors} item= {item}   ></Book>})}
-                
-    //         </View> */}
-
-    //     </ScrollView>
-    //     </View>
-        
-
-        {/* <SafeAreaView >
-            <ScrollView style={style.seealsoContainer}>
-                <Text>Trending</Text>
-                <SwipingCarasoul data= {data}/>
-            
-                
-                <Text style={style.trendingTitle}> See Also</Text>
-                <View style={style.trending}>
-                    {data.map(item =>{ return <Book title= {item.title} disc = {item.disc}></Book>} )}
-                    =
-                </View>
-            </ScrollView>
-        </SafeAreaView> */}
-    // </View>
-    // )
+   
 }
 
 

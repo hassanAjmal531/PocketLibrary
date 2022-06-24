@@ -12,7 +12,7 @@ const BookCard =(props)=>{
     
 
     return(<Card style={{width:350, backgroundColor: "#121212", marginVertical: 3, marginHorizontal: 2, paddingVertical: 10, paddingHorizontal:10 }}>
-        <Card.Cover source={{uri:  props.item.volumeInfo.imageLinks.thumbnail}}></Card.Cover>
+        <Card.Cover source={{uri: typeof props.item.volumeInfo.imageLinks.thumbnail === "undefined"? "../Images/book.png" : props.item.volumeInfo.imageLinks.thumbnail}}></Card.Cover>
         <Card.Content style= {{marginTop: 20}}>
             
             <Title style= {{color: "white"}}>Title: <Text style= {{fontStyle: "italic", fontSize: 15, color: "grey"}}>{props.item.volumeInfo.title}</Text></Title>
